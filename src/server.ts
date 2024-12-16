@@ -1,11 +1,8 @@
-import express, {Router} from "express";
+import createApp from "./app"
 
-const port = process.env.PORT
-const app = express();
-const router = Router();
-
-app.use("/api", router);
+const port = process.env.PORT;
+const app = createApp();
 
 app.listen(port, () => {
-    console.log(`Server rodando na porta ${port}`);
+    console.log(`Server running on ${port}`);
 })
