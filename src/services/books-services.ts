@@ -2,7 +2,6 @@ import { BookModel } from "../models/book-model";
 import { HttpResponse } from "../models/http-response-model";
 import * as BookRepository from "../repositories/books-repository";
 import * as httpResponse from "../utils/http-helper"
-import {readFileJson} from "../repositories/books-repository"
 
 export const getAllBooksService = async (): Promise<HttpResponse> => {
     const data = await BookRepository.findAllBooks();
@@ -40,7 +39,7 @@ export const deleteBookByIdService = async (id: number): Promise<HttpResponse> =
 export const insertBookService = async (book: BookModel) => {
     let response = null;
 
-    const data = await readFileJson();
+    const data = await BookRepository.readFileJson();
     const books: BookModel[] = JSON.parse(data);
     
     const hasId = books.findIndex(bookToFind => bookToFind.id === book.id);
@@ -52,6 +51,19 @@ export const insertBookService = async (book: BookModel) => {
     else if (Object.keys(book).length !== 0) {
         await BookRepository.insertBook(book);
         response = await httpResponse.created();
+    }
+    else {
+        response = await httpResponse.BadRequest("Falta paramêtros");
+    }
+    return response;
+}
+
+export const updateBookService = async (id: number, book: BookModel) => {
+    const data = await BookRepository.findAndModifyBookById(id, book);
+    let response = null;
+
+    if (Object.keys(data).length !== 0) {
+        response = await httpResponse.ok(data);
     }
     else {
         response = await httpResponse.BadRequest("Falta paramêtros");

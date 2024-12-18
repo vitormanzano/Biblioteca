@@ -106,5 +106,11 @@
     "titulo": "Lógica de programação",
     "autor": "Forbellone",
     "paginas": 326
+  },
+  {
+    "id": 20,
+    "titulo": "O mundo assombrado pelos demônios",
+    "autor": "Carl Sagan",
+    "paginas": 512
   }
 ]
