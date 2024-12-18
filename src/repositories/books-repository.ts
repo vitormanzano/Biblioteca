@@ -39,3 +39,12 @@ export const deleteBookById = async (id: number): Promise<Boolean> => {
     }
     return false;
 }
+
+export const insertBook = async (book: BookModel) => {
+    const data = await readFileJson();
+    const books: BookModel[] = JSON.parse(data);
+
+    books.push(book);
+
+    await writeFileJson(books);
+}

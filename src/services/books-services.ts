@@ -1,3 +1,4 @@
+import { BookModel } from "../models/book-model";
 import { HttpResponse } from "../models/http-response-model";
 import * as BookRepository from "../repositories/books-repository";
 import * as httpResponse from "../utils/http-helper"
@@ -28,6 +29,19 @@ export const deleteBookByIdService = async (id: number): Promise<HttpResponse> =
 
     if (isDeleted) {
         response = await httpResponse.ok({message: "Livro Deletado!"}); 
+    }
+    else {
+        response = await httpResponse.BadRequest();
+    }
+    return response;
+}
+
+export const insertBookService = async (book: BookModel) => {
+    let response = null;
+
+    if (Object.keys(book).length !== 0) {
+        await BookRepository.insertBook(book);
+        response = await httpResponse.created();
     }
     else {
         response = await httpResponse.BadRequest();
