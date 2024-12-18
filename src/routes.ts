@@ -8,4 +8,6 @@ const router = Router();
 router.get("/books", BookController.getAllBooks);
 router.get("/books/:id", BookController.getBookById);
 
+router.delete("/books/:id", BookController.deleteBookById);
+
 export default router;
