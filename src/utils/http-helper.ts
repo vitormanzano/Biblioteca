@@ -19,7 +19,7 @@ export const created = async (): Promise<HttpResponse> => {
 export const noContent = async(): Promise<HttpResponse> => {
     return {
         statusCode: 204,
-        body: null
+        body: "Conteúdo não encontrado!"
     };
 };
 

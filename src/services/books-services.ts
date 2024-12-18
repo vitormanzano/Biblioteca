@@ -1,9 +1,23 @@
+import { HttpResponse } from "../models/http-response-model";
 import * as BookRepository from "../repositories/books-repository";
-import * as HttpResponse from "../utils/http-helper"
+import * as httpResponse from "../utils/http-helper"
 
-export const getAllBooks = async () => {
+export const getAllBooksService = async (): Promise<HttpResponse> => {
     const data = await BookRepository.findAllBooks();
 
-    const response = HttpResponse.ok(data);
+    const response = httpResponse.ok(data);
+    return response;
+}
+
+export const getBookByIdService = async (id: number): Promise<HttpResponse> => {
+    const data = await BookRepository.findBookById(id);
+    let response = null
+
+    if (data) {
+        response = httpResponse.ok(data);
+    }
+    else {
+        response = httpResponse.noContent();
+    }
     return response;
 }

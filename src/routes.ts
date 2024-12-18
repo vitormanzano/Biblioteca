@@ -6,5 +6,6 @@ const router = Router();
 //Rotas de livros
 
 router.get("/books", BookController.getAllBooks);
+router.get("/books/:id", BookController.getBookById);
 
 export default router;
