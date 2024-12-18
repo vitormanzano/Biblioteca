@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import * as BookService from "../services/books-services";
+import { BookModel } from "../models/book-model";
 
 export const getAllBooks = async (req: Request, res: Response) => {
     const httpResponse = await BookService.getAllBooksService();
@@ -27,4 +28,14 @@ export const postBook = async (req: Request, res: Response) => {
     if (httpResponse) {
         res.status(httpResponse.statusCode).json(httpResponse.body);
     }
+}
+
+//patch
+export const updateBook = async (req: Request, res: Response) => {
+    const id = parseInt(req.params.id);
+    const bodyValue: BookModel = req.body;
+
+    const httpResponse = await BookService.updateBookService(id, bodyValue);
+
+    res.status(httpResponse.statusCode).json(httpResponse.body);
 }

@@ -48,3 +48,15 @@ export const insertBook = async (book: BookModel) => {
 
     await writeFileJson(books);
 }
+
+export const findAndModifyBookById = async (id: number, book: BookModel): Promise<BookModel> => {
+    const data = await readFileJson();
+    const books: BookModel[] = JSON.parse(data);
+
+    const bookIndex = books.findIndex(bookToFind => bookToFind.id === id);
+    if (bookIndex !== -1) {
+        books[bookIndex] = book;
+        await writeFileJson(books);
+    }
+    return books[bookIndex];
+}
