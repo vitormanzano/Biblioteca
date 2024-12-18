@@ -1,9 +1,9 @@
 import { BookModel } from "../models/book-model";
 import fs from "fs/promises";
 import "../data/books.json";
-import { read } from "fs";
 
-async function readFileJson() {
+
+export async function readFileJson() {
     const data = await fs.readFile("./src/data/books.json", "utf-8");
     return data;
 }
