@@ -5,7 +5,7 @@ import * as httpResponse from "../utils/http-helper"
 export const getAllBooksService = async (): Promise<HttpResponse> => {
     const data = await BookRepository.findAllBooks();
 
-    const response = httpResponse.ok(data);
+    const response = await httpResponse.ok(data);
     return response;
 }
 
@@ -14,10 +14,23 @@ export const getBookByIdService = async (id: number): Promise<HttpResponse> => {
     let response = null
 
     if (data) {
-        response = httpResponse.ok(data);
+        response = await httpResponse.ok(data);
     }
     else {
-        response = httpResponse.noContent();
+        response = await httpResponse.noContent();
+    }
+    return response;
+}
+
+export const deleteBookByIdService = async (id: number): Promise<HttpResponse> => {
+    const isDeleted = await BookRepository.deleteBookById(id);
+    let response = null;
+
+    if (isDeleted) {
+        response = await httpResponse.ok({message: "Livro Deletado!"}); 
+    }
+    else {
+        response = await httpResponse.BadRequest();
     }
     return response;
 }
