@@ -23,9 +23,9 @@ export const noContent = async(): Promise<HttpResponse> => {
     };
 };
 
-export const BadRequest = async (): Promise<HttpResponse> => {
+export const BadRequest = async (data: any): Promise<HttpResponse> => {
     return {
         statusCode: 400,
-        body: null
+        body: data
     };
 };

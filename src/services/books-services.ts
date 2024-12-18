@@ -2,6 +2,7 @@ import { BookModel } from "../models/book-model";
 import { HttpResponse } from "../models/http-response-model";
 import * as BookRepository from "../repositories/books-repository";
 import * as httpResponse from "../utils/http-helper"
+import {readFileJson} from "../repositories/books-repository"
 
 export const getAllBooksService = async (): Promise<HttpResponse> => {
     const data = await BookRepository.findAllBooks();
@@ -31,7 +32,7 @@ export const deleteBookByIdService = async (id: number): Promise<HttpResponse> =
         response = await httpResponse.ok({message: "Livro Deletado!"}); 
     }
     else {
-        response = await httpResponse.BadRequest();
+        response = await httpResponse.BadRequest("Livro não existe");
     }
     return response;
 }
@@ -39,12 +40,21 @@ export const deleteBookByIdService = async (id: number): Promise<HttpResponse> =
 export const insertBookService = async (book: BookModel) => {
     let response = null;
 
-    if (Object.keys(book).length !== 0) {
+    const data = await readFileJson();
+    const books: BookModel[] = JSON.parse(data);
+    
+    const hasId = books.findIndex(bookToFind => bookToFind.id === book.id);
+
+    if (hasId !== -1) {
+       response = await httpResponse.BadRequest("Livro com id ja existente"); 
+    }
+
+    else if (Object.keys(book).length !== 0) {
         await BookRepository.insertBook(book);
         response = await httpResponse.created();
     }
     else {
-        response = await httpResponse.BadRequest();
+        response = await httpResponse.BadRequest("Falta paramêtros");
     }
     return response;
 }
