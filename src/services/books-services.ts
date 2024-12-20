@@ -38,17 +38,8 @@ export const deleteBookByIdService = async (id: number): Promise<HttpResponse> =
 
 export const insertBookService = async (book: BookModel) => {
     let response = null;
-
-    const data = await BookRepository.readFileJson();
-    const books: BookModel[] = JSON.parse(data);
     
-    const hasId = books.findIndex(bookToFind => bookToFind.id === book.id);
-
-    if (hasId !== -1) {
-       response = await httpResponse.BadRequest("Livro com id ja existente"); 
-    }
-
-    else if (Object.keys(book).length !== 0) {
+    if (Object.keys(book).length !== 0) {
         await BookRepository.insertBook(book);
         response = await httpResponse.created();
     }
@@ -62,11 +53,9 @@ export const updateBookService = async (id: number, book: BookModel) => {
     const data = await BookRepository.findAndModifyBookById(id, book);
     let response = null;
 
-    if (Object.keys(data).length !== 0) {
-        response = await httpResponse.ok(data);
-    }
-    else {
-        response = await httpResponse.BadRequest("Falta paramêtros");
-    }
+   
+    response = await httpResponse.ok(data);
+    
+    
     return response;
 }
