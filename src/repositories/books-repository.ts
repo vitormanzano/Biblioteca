@@ -1,7 +1,7 @@
 import { BookModel } from "../models/book-model";
 import fs from "fs/promises";
 import "../data/books.json";
-
+import {conectarBanco} from "../data/connectDatabase"
 
 export async function readFileJson() {
     const data = await fs.readFile("./src/data/books.json", "utf-8");
@@ -12,14 +12,56 @@ async function writeFileJson(data: BookModel[]): Promise<void> {
     await fs.writeFile("./src/data/books.json", JSON.stringify(data, null, 2), "utf-8");
 }
 
-export const findAllBooks = async (): Promise<BookModel[]> => {
-    const data = await readFileJson();
+async function verifyIsUndefinedOrVoid (query: any) {
+    if (!query || query.length === 0) {
+        return false;
+    }
+    return true;
+}
+
+export const findAllBooks = async (): Promise<BookModel[] | undefined> => {
+    let conn = await conectarBanco();
+
+    let allBook = await conn!.execute(
+        `SELECT * FROM LIVRO`
+    );
+
+    //console.log('Resultado é: ', JSON.stringify(allBook.rows)); 
+
+    let rows = allBook?.rows;  
     
-    const books: BookModel[] = JSON.parse(data);
-    return books
+    const isUndefinedOrVoid = await verifyIsUndefinedOrVoid(rows);
+
+    if (!isUndefinedOrVoid) {
+        return undefined
+    }
+
+    const books: BookModel[] = rows!.map((row: any) => ({
+        id: row[0],
+        titulo: row[1],
+        autor: row[2],
+        paginas: row[3],
+    }));
+
+    await conn?.commit();
+
+    return books;
+
+//     console.log(`Resultado: ${rows}`);
+
+//     const data = await readFileJson();
+    
+//     const books: BookModel[] = JSON.parse(data);
+//     return books
 }
 
 export const findBookById = async (id: number): Promise<BookModel | undefined> => {
+    // let conn =  await conectarBanco();
+
+    // let getBookById = conn!.execute (
+    //     ``
+    // )
+
     let data = await readFileJson();
     const books: BookModel[] = JSON.parse(data);
     return books.find(book => book.id === id);   
