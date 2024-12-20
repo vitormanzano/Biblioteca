@@ -4,4 +4,3 @@ export interface BookModel{
     autor: string;
     paginas: number;
 }
-

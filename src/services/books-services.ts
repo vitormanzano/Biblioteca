@@ -53,7 +53,6 @@ export const updateBookService = async (id: number, book: BookModel) => {
     const data = await BookRepository.findAndModifyBookById(id, book);
     let response = null;
 
-   
     response = await httpResponse.ok(data);
     
     

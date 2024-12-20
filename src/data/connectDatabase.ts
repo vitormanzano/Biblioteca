@@ -7,7 +7,7 @@ const dbConfig = {
 };
 
 export async function conectarBanco() {
-    try{
+    try {
         let connection = await oracledb.getConnection(dbConfig);
         return connection;
     }
