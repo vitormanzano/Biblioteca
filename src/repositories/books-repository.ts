@@ -1,16 +1,5 @@
 import { BookModel } from "../models/book-model";
-import fs from "fs/promises";
-import "../data/books.json";
 import {conectarBanco} from "../data/connectDatabase"
-
-export async function readFileJson() {
-    const data = await fs.readFile("./src/data/books.json", "utf-8");
-    return data;
-}
-
-async function writeFileJson(data: BookModel[]): Promise<void> {
-    await fs.writeFile("./src/data/books.json", JSON.stringify(data, null, 2), "utf-8");
-}
 
 async function verifyIsUndefinedOrVoid (query: any) {
     if (!query || query.length === 0) {
@@ -25,8 +14,6 @@ export const findAllBooks = async (): Promise<BookModel[] | undefined> => {
     let allBook = await conn!.execute(
         `SELECT * FROM LIVRO`
     );
-
-    //console.log('Resultado é: ', JSON.stringify(allBook.rows)); 
 
     let rows = allBook?.rows;  
     
@@ -44,15 +31,9 @@ export const findAllBooks = async (): Promise<BookModel[] | undefined> => {
     }));
 
     await conn?.commit();
+    await conn?.close();
 
     return books;
-
-//     console.log(`Resultado: ${rows}`);
-
-//     const data = await readFileJson();
-    
-//     const books: BookModel[] = JSON.parse(data);
-//     return books
 }
 
 export const findBookById = async (id: number): Promise<BookModel | undefined> => {
@@ -80,46 +61,62 @@ export const findBookById = async (id: number): Promise<BookModel | undefined> =
     };
 
     await conn?.commit();
+    await conn?.close();
 
     return book;
-
-    // let data = await readFileJson();
-    // const books: BookModel[] = JSON.parse(data);
-    // return books.find(book => book.id === id);   
 }
 
 export const deleteBookById = async (id: number): Promise<Boolean> => {
-    const data  = await readFileJson();
-    const books: BookModel[] = JSON.parse(data);
+    let conn = await conectarBanco();
 
-    const index = books.findIndex(book => book.id === id);
+    await conn?.execute (
+        `DELETE FROM LIVRO WHERE id = :id`,
+        [id]
+    );
 
-    if (index !== -1) {
-        books.splice(index,1);
-        
-        await writeFileJson(books)
-        return true
-    }
-    return false;
+    await conn?.commit();
+    await conn?.close();
+
+    return true;
 }
 
 export const insertBook = async (book: BookModel) => {
-    const data = await readFileJson();
-    const books: BookModel[] = JSON.parse(data);
+    let conn = await conectarBanco();
 
-    books.push(book);
+    await conn?.execute (
+        `INSERT INTO LIVRO VALUES(:id, :titulo, :autor, :paginas)`,
+        {
+            id: book.id,
+            titulo: book.titulo,
+            autor: book.autor,
+            paginas: book.paginas
+        }
+    );
 
-    await writeFileJson(books);
+    await conn?.commit();
+
+    await conn?.close();
 }
 
 export const findAndModifyBookById = async (id: number, book: BookModel): Promise<BookModel> => {
-    const data = await readFileJson();
-    const books: BookModel[] = JSON.parse(data);
+    let conn = await conectarBanco();
 
-    const bookIndex = books.findIndex(bookToFind => bookToFind.id === id);
-    if (bookIndex !== -1) {
-        books[bookIndex] = book;
-        await writeFileJson(books);
-    }
-    return books[bookIndex];
+    await conn?.execute (
+        `UPDATE LIVRO
+        SET titulo = :titulo, autor = :autor, paginas = :paginas
+        WHERE id = :id`,
+        {
+            id: book.id,
+            titulo: book.titulo,
+            autor: book.autor,
+            paginas: book.paginas
+        },
+        
+    );
+
+    await conn?.commit();
+
+    await conn?.close();
+
+    return book;
 }
