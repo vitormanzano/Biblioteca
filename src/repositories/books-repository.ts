@@ -94,7 +94,6 @@ export const insertBook = async (book: BookModel) => {
     );
 
     await conn?.commit();
-
     await conn?.close();
 }
 
@@ -106,16 +105,14 @@ export const findAndModifyBookById = async (id: number, book: BookModel): Promis
         SET titulo = :titulo, autor = :autor, paginas = :paginas
         WHERE id = :id`,
         {
-            id: book.id,
+            id: id,
             titulo: book.titulo,
             autor: book.autor,
             paginas: book.paginas
         },
-        
     );
 
     await conn?.commit();
-
     await conn?.close();
 
     return book;
