@@ -56,15 +56,36 @@ export const findAllBooks = async (): Promise<BookModel[] | undefined> => {
 }
 
 export const findBookById = async (id: number): Promise<BookModel | undefined> => {
-    // let conn =  await conectarBanco();
+    let conn =  await conectarBanco();
 
-    // let getBookById = conn!.execute (
-    //     ``
-    // )
+    let getBookById = await conn!.execute (
+        `SELECT * FROM LIVRO
+        WHERE id = :id`,
+        [id]
+    );
 
-    let data = await readFileJson();
-    const books: BookModel[] = JSON.parse(data);
-    return books.find(book => book.id === id);   
+    let rows = getBookById?.rows as any;
+    
+    const isUndefinedOrVoid = await verifyIsUndefinedOrVoid(rows);
+
+    if (!isUndefinedOrVoid) {
+        return undefined
+    }
+
+    const book: BookModel = {
+        id: rows![0][0],
+        titulo: rows![0][1],
+        autor: rows![0][2],
+        paginas: rows![0][3]
+    };
+
+    await conn?.commit();
+
+    return book;
+
+    // let data = await readFileJson();
+    // const books: BookModel[] = JSON.parse(data);
+    // return books.find(book => book.id === id);   
 }
 
 export const deleteBookById = async (id: number): Promise<Boolean> => {
