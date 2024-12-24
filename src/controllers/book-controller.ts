@@ -7,14 +7,14 @@ export const getAllBooks = async (req: Request, res: Response) => {
     res.status(httpResponse.statusCode).json(httpResponse.body);
 }
 
-export const getBookById = async (req: Request, res: Response) => {
+export const getBookByGuid = async (req: Request, res: Response) => {
     const guid = (req.params.guid).toString();
 
     const httpResponse = await BookService.getBookByGuidService(guid);
     res.status(httpResponse.statusCode).json(httpResponse.body);
 }
 
-export const deleteBookById = async (req: Request, res: Response) => {
+export const deleteBookByGuid = async (req: Request, res: Response) => {
     const guid = (req.params.guid).toString();
 
     const httpResponse = await BookService.deleteBookByGuidService(guid);
@@ -31,11 +31,11 @@ export const postBook = async (req: Request, res: Response) => {
 }
 
 //patch
-export const updateBook = async (req: Request, res: Response) => {
+export const updateBookByGuid = async (req: Request, res: Response) => {
     const guid = (req.params.guid).toString();
     const bodyValue: BookModel = req.body;
 
-    const httpResponse = await BookService.updateBookService(guid, bodyValue);
+    const httpResponse = await BookService.updateBookByGuidService(guid, bodyValue);
 
     res.status(httpResponse.statusCode).json(httpResponse.body);
 }

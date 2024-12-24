@@ -16,10 +16,10 @@ export const created = async (): Promise<HttpResponse> => {
     };
 }
 
-export const noContent = async(): Promise<HttpResponse> => {
+export const noContent = async(data: any): Promise<HttpResponse> => {
     return {
         statusCode: 204,
-        body: "Conteúdo não encontrado!"
+        body: data
     };
 };
 
