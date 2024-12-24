@@ -15,7 +15,7 @@ export const getBookById = async (req: Request, res: Response) => {
 }
 
 export const deleteBookById = async (req: Request, res: Response) => {
-    const id = parseInt(req.params.id);
+    const id = (req.params.id).toString();
 
     const httpResponse = await BookService.deleteBookByIdService(id);
     res.status(httpResponse.statusCode).json(httpResponse.body);

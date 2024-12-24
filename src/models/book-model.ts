@@ -1,5 +1,5 @@
 export interface BookModel{
-    GUID: number;
+    GUID: string;
     titulo: string;
     autor: string;
     paginas: number;

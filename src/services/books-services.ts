@@ -1,17 +1,23 @@
 import { BookModel } from "../models/book-model";
 import { HttpResponse } from "../models/http-response-model";
 import * as BookRepository from "../repositories/books-repository";
-import * as httpResponse from "../utils/http-helper"
+import * as httpResponse from "../utils/http-helper";
 
 export const getAllBooksService = async (): Promise<HttpResponse> => {
     const data = await BookRepository.findAllBooks();
+    let response = null;
 
-    const response = await httpResponse.ok(data);
+    if (data) {
+        response = await httpResponse.ok(data);
+    }
+    else {
+        response = await httpResponse.noContent();
+    }
     return response;
 }
 
-export const getBookByIdService = async (id: number): Promise<HttpResponse> => {
-    const data = await BookRepository.findBookById(id);
+export const getBookByGuidService = async (guid: string): Promise<HttpResponse> => {
+    const data = await BookRepository.findBookByGuid(guid);
     let response = null
 
     if (data) {
@@ -23,9 +29,16 @@ export const getBookByIdService = async (id: number): Promise<HttpResponse> => {
     return response;
 }
 
-export const deleteBookByIdService = async (id: number): Promise<HttpResponse> => {
-    const isDeleted = await BookRepository.deleteBookById(id);
+export const deleteBookByGuidService = async (guid: string): Promise<HttpResponse> => {
+    const existId = await BookRepository.findBookByGuid(guid);
     let response = null;
+
+    if (existId === undefined) {
+        response = await httpResponse.BadRequest({message: "Não foi possível achar o livro!"});
+        return response
+    } 
+
+    const isDeleted = await BookRepository.deleteBookByGuid(guid);
 
     if (isDeleted) {
         response = await httpResponse.ok({message: "Livro Deletado!"}); 
@@ -36,25 +49,31 @@ export const deleteBookByIdService = async (id: number): Promise<HttpResponse> =
     return response;
 }
 
-export const insertBookService = async (book: BookModel) => {
+export const insertBookService = async (book: BookModel): Promise<HttpResponse> => {
     let response = null;
     
-    if (Object.keys(book).length !== 0) {
-        await BookRepository.insertBook(book);
+    const hasCreated = await BookRepository.insertBook(book);
+    
+    if (hasCreated === true) {  
         response = await httpResponse.created();
     }
     else {
-        response = await httpResponse.BadRequest("Falta paramêtros");
+        response = await httpResponse.BadRequest("Não foi possivel inserir o livro!");
     }
     return response;
 }
 
 export const updateBookService = async (guid: string, book: BookModel) => {
-    const data = await BookRepository.findAndModifyBookByGuid(guid, book);
+    const existId = await BookRepository.findBookByGuid(guid);
     let response = null;
 
-    response = await httpResponse.ok(data);
-    
-    
+    if (existId === undefined) {
+        response = await httpResponse.BadRequest({message: "Não foi possível achar o livro!"})
+    }
+    else {
+        const data = await BookRepository.findAndModifyBookByGuid(guid, book);
+        response = await httpResponse.ok(data);
+    }
+
     return response;
 }

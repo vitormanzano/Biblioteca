@@ -13,6 +13,6 @@ export async function conectarBanco() {
     }
     catch (err) {
         console.error('Erro ao conectar: ',err);
-        return undefined
+        return undefined;
     }
 }
