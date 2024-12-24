@@ -8,16 +8,16 @@ export const getAllBooks = async (req: Request, res: Response) => {
 }
 
 export const getBookById = async (req: Request, res: Response) => {
-    const id = parseInt(req.params.id);
+    const guid = (req.params.guid).toString();
 
-    const httpResponse = await BookService.getBookByIdService(id);
+    const httpResponse = await BookService.getBookByGuidService(guid);
     res.status(httpResponse.statusCode).json(httpResponse.body);
 }
 
 export const deleteBookById = async (req: Request, res: Response) => {
-    const id = (req.params.id).toString();
+    const guid = (req.params.guid).toString();
 
-    const httpResponse = await BookService.deleteBookByIdService(id);
+    const httpResponse = await BookService.deleteBookByGuidService(guid);
     res.status(httpResponse.statusCode).json(httpResponse.body);
 }
 
@@ -32,10 +32,10 @@ export const postBook = async (req: Request, res: Response) => {
 
 //patch
 export const updateBook = async (req: Request, res: Response) => {
-    const id = parseInt(req.params.id);
+    const guid = (req.params.guid).toString();
     const bodyValue: BookModel = req.body;
 
-    const httpResponse = await BookService.updateBookService(id, bodyValue);
+    const httpResponse = await BookService.updateBookService(guid, bodyValue);
 
     res.status(httpResponse.statusCode).json(httpResponse.body);
 }
