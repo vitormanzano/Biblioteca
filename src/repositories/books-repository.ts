@@ -36,13 +36,13 @@ export const findAllBooks = async (): Promise<BookModel[] | undefined> => {
     return books;
 }
 
-export const findBookByGUID = async (GUID: string): Promise<BookModel | undefined> => {
+export const findBookByGuid = async (guid: string): Promise<BookModel | undefined> => {
     let conn =  await conectarBanco();
 
     let getBookById = await conn!.execute (
         `SELECT * FROM LIVRO
-        WHERE GUID = :GUID`,
-        [GUID]
+        WHERE GUID = :guid`,
+        [guid]
     );
 
     let rows = getBookById?.rows as any;
@@ -65,12 +65,12 @@ export const findBookByGUID = async (GUID: string): Promise<BookModel | undefine
     return book;
 }
 
-export const deleteBookByGUID = async (GUID: string): Promise<Boolean> => {
+export const deleteBookByGuid = async (guid: string): Promise<Boolean> => {
     let conn = await conectarBanco();
     try {
         await conn?.execute (
-            `DELETE FROM LIVRO WHERE GUID = :GUID`,
-            [GUID]
+            `DELETE FROM LIVRO WHERE GUID = :guid`,
+            [guid]
         );
     
         await conn?.commit();
@@ -115,7 +115,7 @@ export const insertBook = async (book: BookModel): Promise<Boolean> => {
     }
 }
 
-export const findAndModifyBookByGUID = async (GUID: string, book: BookModel): Promise<BookModel> => {
+export const findAndModifyBookByGuid = async (guid: string, book: BookModel): Promise<BookModel> => {
     let conn = await conectarBanco();
 
     await conn?.execute (
@@ -123,7 +123,7 @@ export const findAndModifyBookByGUID = async (GUID: string, book: BookModel): Pr
         SET titulo = :titulo, autor = :autor, paginas = :paginas
         WHERE GUID = :guid`,
         {
-            guid: GUID,
+            guid: guid,
             titulo: book.titulo,
             autor: book.autor,
             paginas: book.paginas
