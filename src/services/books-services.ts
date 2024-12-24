@@ -44,7 +44,7 @@ export const deleteBookByGuidService = async (guid: string): Promise<HttpRespons
         response = await httpResponse.ok({message: "Livro Deletado!"}); 
     }
     else {
-        response = await httpResponse.BadRequest("Livro não existe");
+        response = await httpResponse.BadRequest("Não foi possível deletar o livro");
     }
     return response;
 }
