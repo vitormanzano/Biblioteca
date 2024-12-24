@@ -19,9 +19,8 @@ export const findAllBooks = async (): Promise<BookModel[] | undefined> => {
     let rows = allBook?.rows;  
     
     const isUndefinedOrVoid = await verifyIsUndefinedOrVoid(rows);
-
     if (isUndefinedOrVoid) {
-        return undefined
+        return undefined;
     }
 
     const books: BookModel[] = rows!.map((row: any) => ({

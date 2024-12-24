@@ -34,7 +34,7 @@ export const deleteBookByGuidService = async (guid: string): Promise<HttpRespons
     let response = null;
 
     if (existId === undefined) {
-        response = await httpResponse.BadRequest({message: "Não foi possível achar o livro!"});
+        response = await httpResponse.badRequest({message: "Não foi possível achar o livro!"});
         return response
     } 
 
@@ -44,7 +44,7 @@ export const deleteBookByGuidService = async (guid: string): Promise<HttpRespons
         response = await httpResponse.ok({message: "Livro Deletado!"}); 
     }
     else {
-        response = await httpResponse.BadRequest("Não foi possível deletar o livro");
+        response = await httpResponse.badRequest("Não foi possível deletar o livro");
     }
     return response;
 }
@@ -58,22 +58,21 @@ export const insertBookService = async (book: BookModel): Promise<HttpResponse> 
         response = await httpResponse.created();
     }
     else {
-        response = await httpResponse.BadRequest("Não foi possivel inserir o livro!");
+        response = await httpResponse.badRequest("Não foi possivel inserir o livro!");
     }
     return response;
 }
 
-export const updateBookByGuidService = async (guid: string, book: BookModel) => {
+export const updateBookByGuidService = async (guid: string, book: BookModel): Promise<HttpResponse> => {
     const existId = await BookRepository.findBookByGuid(guid);
     let response = null;
 
     if (existId === undefined) {
-        response = await httpResponse.BadRequest({message: "Não foi possível achar o livro!"})
+        response = await httpResponse.badRequest({message: "Não foi possível achar o livro!"})
     }
     else {
         const data = await BookRepository.findAndModifyBookByGuid(guid, book);
         response = await httpResponse.ok(data);
     }
-
     return response;
 }
