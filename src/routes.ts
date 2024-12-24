@@ -6,12 +6,12 @@ const router = Router();
 //Rotas de livros
 
 router.get("/books", BookController.getAllBooks);
-router.get("/books/:id", BookController.getBookById);
+router.get("/books/:guid", BookController.getBookById);
 
-router.delete("/books/:id", BookController.deleteBookById);
+router.delete("/books/:guid", BookController.deleteBookById);
 
 router.post("/books", BookController.postBook);
 
-router.patch("/books/:id", BookController.updateBook);
+router.patch("/books/:guid", BookController.updateBook);
 
 export default router;
