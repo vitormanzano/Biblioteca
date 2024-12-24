@@ -49,8 +49,8 @@ export const insertBookService = async (book: BookModel) => {
     return response;
 }
 
-export const updateBookService = async (id: number, book: BookModel) => {
-    const data = await BookRepository.findAndModifyBookById(id, book);
+export const updateBookService = async (guid: string, book: BookModel) => {
+    const data = await BookRepository.findAndModifyBookByGuid(guid, book);
     let response = null;
 
     response = await httpResponse.ok(data);
