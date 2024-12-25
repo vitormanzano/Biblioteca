@@ -25,9 +25,7 @@ export const postBook = async (req: Request, res: Response) => {
     const bodyValue = req.body;
     const httpResponse = await BookService.insertBookService(bodyValue);
 
-    if (httpResponse) {
-        res.status(httpResponse.statusCode).json(httpResponse.body);
-    }
+    res.status(httpResponse.statusCode).json(httpResponse.body);
 }
 
 //patch

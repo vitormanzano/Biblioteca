@@ -6,7 +6,7 @@ const dbConfig = {
     connectString: process.env.ORACLE_CONN_STR
 };
 
-export async function conectarBanco() {
+export async function connectOnDatabase() {
     try {
         let connection = await oracledb.getConnection(dbConfig);
         return connection;
