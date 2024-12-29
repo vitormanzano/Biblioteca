@@ -7,6 +7,7 @@ const router = Router();
 
 router.get("/books", BookController.getAllBooks);
 router.get("/books/:guid", BookController.getBookByGuid);
+router.get("/books/search/:title", BookController.getBooksByName);
 
 router.delete("/books/:guid", BookController.deleteBookByGuid);
 

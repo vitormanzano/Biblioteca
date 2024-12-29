@@ -7,11 +7,12 @@ export const getAllBooksService = async (): Promise<HttpResponse> => {
     const data = await BookRepository.findAllBooks();
     let response = null;
 
+
     if (data) {
         response = await httpResponse.ok(data);
     }
     else {
-        response = await httpResponse.noContent({message: "Nenhum livro encontrado!"});
+        response = await httpResponse.notFound({message: "Nenhum livro encontrado!"});
     }
     return response;
 }
@@ -24,7 +25,20 @@ export const getBookByGuidService = async (guid: string): Promise<HttpResponse> 
         response = await httpResponse.ok(data);
     }
     else {
-        response = await httpResponse.noContent({message: "Não foi possível achar o livro"});
+        response = await httpResponse.notFound({message: "Não foi possível achar o livro"});
+    }
+    return response;
+}
+
+export const getBooksByNameService = async (title: string): Promise<HttpResponse> => {
+    const data = await BookRepository.findBookByName(title);
+    let response = null;
+
+    if (data) {
+        response = await httpResponse.ok(data);
+    }
+    else {
+        response = await httpResponse.notFound({message: "Ooops... Não encontramos nada!"});
     }
     return response;
 }
@@ -53,6 +67,8 @@ export const insertBookService = async (book: BookModel): Promise<HttpResponse> 
     let response = null;
     
     const hasCreated = await BookRepository.insertBook(book);
+
+    
     
     if (hasCreated === true) {  
         response = await httpResponse.created();

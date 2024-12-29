@@ -12,7 +12,7 @@ export async function connectOnDatabase() {
         return connection;
     }
     catch (err) {
-        console.error('Erro ao conectar: ',err);
+        console.error('Erro ao conectar no banco: ',err);
         return undefined;
     }
 }
