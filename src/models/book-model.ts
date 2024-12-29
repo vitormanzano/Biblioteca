@@ -1,4 +1,4 @@
-export interface BookModel{
+export interface BookModel {
     GUID: string;
     titulo: string;
     autor: string;

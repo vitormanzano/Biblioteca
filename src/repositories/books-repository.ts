@@ -64,6 +64,43 @@ export const findBookByGuid = async (guid: string): Promise<BookModel | undefine
     return book;
 }
 
+export const findBookByName = async (title: string): Promise<BookModel[] | undefined> => {
+    let connection = await connectOnDatabase(); 
+
+    
+    try {
+        const searchTitle = '%' + title + '%'; 
+
+        let searchedBooksList =  await connection?.execute(`SELECT * FROM LIVRO WHERE titulo LIKE :searchTitle`,
+        [searchTitle]
+    );
+    
+    let rows = searchedBooksList?.rows;
+
+    const isUndefinedOrVoid = await verifyIsUndefinedOrVoid(rows);
+    if (isUndefinedOrVoid) {
+        return undefined;
+    }
+
+    const books: BookModel[] = rows!.map((row: any) => ({
+        GUID: row[0],
+        titulo: row[1],
+        autor: row[2],
+        paginas: row[3],
+    }));
+
+    return books;
+
+    }
+    catch (err) {
+        console.log("Erro ao executar: ");
+        return undefined;
+    }
+    finally {
+        await connection?.close;
+    }
+}
+
 export const deleteBookByGuid = async (guid: string): Promise<Boolean> => {
     let connection = await connectOnDatabase();
     try {
