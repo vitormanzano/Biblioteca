@@ -11,7 +11,6 @@ export const getBookByGuid = async (req: Request, res: Response) => {
     const guid = (req.params.guid).toString();
 
     const httpResponse = await BookService.getBookByGuidService(guid);
-    console.log(httpResponse.body);
     res.status(httpResponse.statusCode).json(httpResponse.body);
 }
 
