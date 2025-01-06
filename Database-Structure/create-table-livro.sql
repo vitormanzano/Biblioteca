@@ -1,0 +1,6 @@
+CREATE TABLE LIVRO (
+    GUID CHAR(36) PRIMARY KEY,
+    titulo VARCHAR2(100) NOT NULL,
+    autor VARCHAR2(100),
+    paginas INTEGER
+);

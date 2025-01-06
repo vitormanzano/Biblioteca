@@ -7,7 +7,6 @@ export const getAllBooksService = async (): Promise<HttpResponse> => {
     const data = await BookRepository.findAllBooks();
     let response = null;
 
-
     if (data) {
         response = await httpResponse.ok(data);
     }
@@ -68,8 +67,6 @@ export const insertBookService = async (book: BookModel): Promise<HttpResponse> 
     
     const hasCreated = await BookRepository.insertBook(book);
 
-    
-    
     if (hasCreated === true) {  
         response = await httpResponse.created();
     }
