@@ -10,4 +10,4 @@ Uma API que funciona como uma biblioteca onde temos o CRUD de livros, pensando e
 
 ## Modelagem Banco
 
-![Modelagem Conceitual do projeto](./Database-Structure/ConceptualModel.png)
+![Modelagem Conceitual do projeto](/Database-Structure/ConceptualModel.png)
