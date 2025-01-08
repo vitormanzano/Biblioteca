@@ -12,3 +12,11 @@ Uma API que funciona como uma biblioteca onde temos o CRUD de livros, pensando e
 
 ![Modelagem Conceitual do projeto](Database-Structure/ConceptualModel.png)
 ![Modelagem lógica do projeto](Database-Structure/LogicModel.png)
+
+## Rotas
+
+<i><b>Todas as rotas tem um /api antes </b></i>
+
+- GET
+- GET
+- GET
