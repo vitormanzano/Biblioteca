@@ -7,4 +7,7 @@ Uma API que funciona como uma biblioteca onde temos o CRUD de livros, pensando e
 - Typescript
 - Express
 - Oracle
-  
+
+## Modelagem Banco
+
+![Modelagem Conceitual do projeto](./Database-Structure/ConceptualModel.png)
