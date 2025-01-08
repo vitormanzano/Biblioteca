@@ -64,7 +64,6 @@ export const deleteBookByGuidService = async (guid: string): Promise<HttpRespons
 
 export const insertBookService = async (book: BookModel): Promise<HttpResponse> => {
     let response = null;
-    
     const hasCreated = await BookRepository.insertBook(book);
 
     if (hasCreated === true) {  
