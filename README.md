@@ -15,6 +15,7 @@ Uma API que funciona como uma biblioteca onde temos o CRUD de livros, pensando e
 
 ## Rotas
 
+<b>https://localhost:3333</b>
 <i><b>Todas as rotas tem um /api antes </b></i>
 
 - GET
