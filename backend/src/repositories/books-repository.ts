@@ -8,7 +8,8 @@ async function insertActor (name: string): Promise<string | undefined> {
     console.log(GUID);
     try {
         await connection!.execute (
-            `INSERT INTO AUTOR (GUID, nome) VALUES(:guid, :nome)`,
+            `INSERT INTO AUTOR (GUID, nome) 
+                        VALUES(:guid, :nome)`,
             [
                 {val: GUID},
                 {val: name}
@@ -151,13 +152,16 @@ export const insertBook = async (book: BookModel): Promise<Boolean> => {
             [book.autor]
         ) as [Array<{GUID: string}>]
 
-        const GUIDActor = (await verifyIsUndefinedOrVoid(searchActor[0])) ? await insertActor(book.autor) : searchActor 
+        const GUIDActor = await verifyIsUndefinedOrVoid(searchActor[0]) ? 
+                          await insertActor(book.autor) : 
+                          searchActor[0]; 
         
         await connection?.execute (
-            `INSERT INTO LIVRO(GUID, titulo, autor_guid, paginas) VALUES(:GUID, :titulo, :GUIDActor, :paginas)`,
+            `INSERT INTO LIVRO (GUID, titulo, autor_guid, paginas) 
+                        VALUES (:GUID, :titulo, :GUIDActor, :paginas)`,
             [   
                 {val: GUID},
-                {val:book.titulo},
+                {val: book.titulo},
                 {val: GUIDActor},
                 {val: book.paginas}
             ]
@@ -179,7 +183,9 @@ export const findAndModifyBookByGuid = async (guid: string, book: BookModel): Pr
 
     await connection?.execute (
         `UPDATE LIVRO
-        SET titulo = :titulo, autor = :autor, paginas = :paginas
+        SET titulo = :titulo, 
+        autor = :autor, 
+        paginas = :paginas
         WHERE GUID = :guid`,
         {
             guid: guid,
