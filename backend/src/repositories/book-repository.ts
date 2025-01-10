@@ -1,36 +1,8 @@
 import { BookModel } from "../models/book-model";
 import {connectOnDatabase} from "../data/connectDatabase"
 import { createGUID } from "../data/create-guid";
-
-async function insertActor (name: string): Promise<string | undefined> {
-    const connection = await connectOnDatabase();
-    const GUID = createGUID();
-    console.log(GUID);
-    try {
-        await connection!.execute (
-            `INSERT INTO AUTOR (GUID, nome) 
-                        VALUES(:guid, :nome)`,
-            [
-                {val: GUID},
-                {val: name}
-            ]
-        );
-        await connection?.commit();
-        await connection?.close();
-
-        return GUID;
-    }
-    catch (error) {
-        console.log(error);
-    }
-}
-
-export async function verifyIsUndefinedOrVoid (query: any) {
-    if (!query || query.length === 0) {
-        return true;
-    }
-    return false;
-}
+import { insertActor } from "./insertActor-repository";
+import { verifyIsUndefinedOrVoid } from "./verifyUndefined -repository";
 
 export const findAllBooks = async (): Promise<BookModel[] | undefined> => {
     const connection = await connectOnDatabase();

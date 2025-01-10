@@ -1,9 +1,9 @@
 import { BookModel } from "../models/book-model";
-import { HttpResponse } from "../models/http-response-model";
-import * as BookRepository from "../repositories/books-repository";
+import { HttpResponseModel } from "../models/http-response-model";
+import * as BookRepository from "../repositories/book-repository";
 import * as httpResponse from "../utils/http-helper";
 
-export const getAllBooksService = async (): Promise<HttpResponse> => {
+export const getAllBooksService = async (): Promise<HttpResponseModel> => {
     const data = await BookRepository.findAllBooks();
     let response = null;
 
@@ -16,7 +16,7 @@ export const getAllBooksService = async (): Promise<HttpResponse> => {
     return response;
 }
 
-export const getBookByGuidService = async (guid: string): Promise<HttpResponse> => {
+export const getBookByGuidService = async (guid: string): Promise<HttpResponseModel> => {
     const data = await BookRepository.findBookByGuid(guid);
     let response = null
 
@@ -29,7 +29,7 @@ export const getBookByGuidService = async (guid: string): Promise<HttpResponse> 
     return response;
 }
 
-export const getBooksByNameService = async (title: string): Promise<HttpResponse> => {
+export const getBooksByNameService = async (title: string): Promise<HttpResponseModel> => {
     const data = await BookRepository.findBookByName(title);
     let response = null;
 
@@ -42,7 +42,7 @@ export const getBooksByNameService = async (title: string): Promise<HttpResponse
     return response;
 }
 
-export const deleteBookByGuidService = async (guid: string): Promise<HttpResponse> => {
+export const deleteBookByGuidService = async (guid: string): Promise<HttpResponseModel> => {
     const existId = await BookRepository.findBookByGuid(guid);
     let response = null;
 
@@ -62,7 +62,7 @@ export const deleteBookByGuidService = async (guid: string): Promise<HttpRespons
     return response;
 }
 
-export const insertBookService = async (book: BookModel): Promise<HttpResponse> => {
+export const insertBookService = async (book: BookModel): Promise<HttpResponseModel> => {
     let response = null;
     const hasCreated = await BookRepository.insertBook(book);
 
@@ -75,7 +75,7 @@ export const insertBookService = async (book: BookModel): Promise<HttpResponse> 
     return response;
 }
 
-export const updateBookByGuidService = async (guid: string, book: BookModel): Promise<HttpResponse> => {
+export const updateBookByGuidService = async (guid: string, book: BookModel): Promise<HttpResponseModel> => {
     const existId = await BookRepository.findBookByGuid(guid);
     let response = null;
 

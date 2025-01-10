@@ -1,5 +1,6 @@
 import {Router} from "express";
 import * as BookController from "./controllers/book-controller";
+import * as UserController from "./controllers/user-controller";
 
 const router = Router();
 
@@ -14,5 +15,9 @@ router.delete("/books/:guid", BookController.deleteBookByGuid);
 router.post("/books", BookController.postBook);
 
 router.patch("/books/:guid", BookController.updateBookByGuid);
+
+//Rotas do usuário
+
+router.post("/user", UserController.postUser);
 
 export default router;

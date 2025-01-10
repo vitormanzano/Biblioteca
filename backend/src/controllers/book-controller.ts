@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
-import * as BookService from "../services/books-services";
+import * as BookService from "../services/book-services";
 import { BookModel } from "../models/book-model";
-    
+import * as HttpResponse from "../utils/http-helper"    
+
 export const getAllBooks = async (req: Request, res: Response) => {
     const httpResponse = await BookService.getAllBooksService();
     res.status(httpResponse.statusCode).json(httpResponse.body);
@@ -29,8 +30,15 @@ export const deleteBookByGuid = async (req: Request, res: Response) => {
 }
 
 export const postBook = async (req: Request, res: Response) => {
-    const bodyValue = req.body;
-    const httpResponse = await BookService.insertBookService(bodyValue);
+    const book = req.body as BookModel;
+    let httpResponse = null;
+
+    if (!book.autor || !book.titulo || book.paginas) {
+        httpResponse = await HttpResponse.badRequest({ message: "Faltam parâmetros"});
+        res.status(httpResponse.statusCode).json(httpResponse.body);
+    }
+
+    httpResponse = await BookService.insertBookService(book);
 
     res.status(httpResponse.statusCode).json(httpResponse.body);
 }
