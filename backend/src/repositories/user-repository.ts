@@ -1,11 +1,10 @@
-import { connectOnDatabase } from "../data/connectDatabase"
-import { UserModel } from "../models/user-model"
-import { verifyIsUndefinedOrVoid } from "./verifyUndefined -repository";
-
+import { commitAndCloseDatabase } from "../data/commitAndCloseDatabase";
+import { connectOnDatabase } from "../data/connectDatabase";
+import { UserModel } from "../models/user-model";
 
 export const insertUserRepository = async (user: UserModel): Promise<Boolean> => {
     const connection = await connectOnDatabase();
-
+    console.log(typeof(connection));
     try {
         const insertedUser = await connection!.execute (
             `INSERT INTO PESSOA (cpf, nome, email, senha) 
@@ -16,10 +15,9 @@ export const insertUserRepository = async (user: UserModel): Promise<Boolean> =>
                     user.nome,
                     user.senha
                 ]
-        )
+        );
 
-        await connection?.commit();
-        await connection?.close();
+        await commitAndCloseDatabase(connection!)
 
         return true;
     } 
