@@ -10,9 +10,43 @@ export const postUser  = async (req: Request, res: Response) => {
 
     if (!user.cpf || !user.email || !user.nome || !user.senha) {
         httpResponse = await HttpResponse.badRequest({message: "Faltam parâmetros"});
-        res.status(httpResponse.statusCode).json(httpResponse.body);
+    }
+    else {
+        httpResponse = await UserService.insertUserService(user);
     }
     
-    httpResponse = await UserService.insertUserService(user);
+    res.status(httpResponse.statusCode).json(httpResponse.body);
+}
+
+export const getAllUsers = async (req: Request, res: Response) => {
+    let httpResponse = await UserService.getAllUsersService();
+    res.status(httpResponse.statusCode).json(httpResponse.body);
+}
+
+export const getUserByCpf = async (req: Request, res: Response) => {
+    const cpf = req.params.cpf.toString();
+    let httpResponse = null;
+    
+    //Estou com receio de misturar isso, retornar um HttpResponse no controller, sendo que esse papel, em todos estava sendo unicamente do service!
+    if (!cpf) {
+        httpResponse = await HttpResponse.badRequest({message: "Insira um cpf!"});
+    }
+    else {
+        httpResponse = await UserService.getUserByCpfService(cpf);
+    }
+
+    res.status(httpResponse.statusCode).json(httpResponse.body)
+}
+
+export const deleteUserByCpf = async (req: Request, res: Response) => {
+    const cpf = req.params.cpf.toString();
+    let httpResponse = null;
+
+    if (!cpf) {
+        httpResponse = await HttpResponse.badRequest({message: "Insira um cpf!"});
+    }
+    else {
+        httpResponse = await UserService.deleteUserByCpfService(cpf);
+    }
     res.status(httpResponse.statusCode).json(httpResponse.body);
 }

@@ -37,9 +37,10 @@ export const postBook = async (req: Request, res: Response) => {
         httpResponse = await HttpResponse.badRequest({ message: "Faltam parâmetros"});
         res.status(httpResponse.statusCode).json(httpResponse.body);
     }
-
-    httpResponse = await BookService.insertBookService(book);
-
+    else {
+        httpResponse = await BookService.insertBookService(book);
+    }
+    
     res.status(httpResponse.statusCode).json(httpResponse.body);
 }
 
