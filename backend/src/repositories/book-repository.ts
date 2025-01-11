@@ -3,6 +3,7 @@ import {connectOnDatabase} from "../data/connectDatabase"
 import { createGUID } from "../data/create-guid";
 import { insertActor } from "./insertActor-repository";
 import { verifyIsUndefinedOrVoid } from "./verifyUndefined -repository";
+import { commitAndCloseDatabase } from "../data/commitAndCloseDatabase";
 
 export const findAllBooks = async (): Promise<BookModel[] | undefined> => {
     const connection = await connectOnDatabase();
@@ -25,8 +26,7 @@ export const findAllBooks = async (): Promise<BookModel[] | undefined> => {
         paginas: row[3],
     }));
 
-    await connection?.close();
-
+    await commitAndCloseDatabase(connection!);
     return books;
 }
 
@@ -54,7 +54,7 @@ export const findBookByGuid = async (guid: string): Promise<BookModel | undefine
         paginas: rows![0][3]
     };
 
-    await connection?.close();
+    await commitAndCloseDatabase(connection!)
 
     return book;
 }
@@ -91,7 +91,7 @@ export const findBookByName = async (title: string): Promise<BookModel[] | undef
         return undefined;
     }
     finally {
-        await connection?.close;
+        await commitAndCloseDatabase(connection!)
     }
 }
 
@@ -103,8 +103,7 @@ export const deleteBookByGuid = async (guid: string): Promise<Boolean> => {
             [guid]
         );
     
-        await connection?.commit();
-        await connection?.close();
+        await commitAndCloseDatabase(connection!)
 
         return true;
     }
@@ -139,8 +138,7 @@ export const insertBook = async (book: BookModel): Promise<Boolean> => {
             ]
         );
         
-        await connection?.commit();
-        await connection?.close();
+        await commitAndCloseDatabase(connection!)
 
         return true;
     }
@@ -167,8 +165,7 @@ export const findAndModifyBookByGuid = async (guid: string, book: BookModel): Pr
         },
     );
 
-    await connection?.commit();
-    await connection?.close();
+    await commitAndCloseDatabase(connection!)
 
     return book;
 }
