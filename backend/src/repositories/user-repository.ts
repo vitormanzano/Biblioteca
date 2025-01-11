@@ -93,21 +93,21 @@ export const getUserByCpf = async (cpf: string): Promise<UserModel | undefined> 
     }
 }
 
-export const deleteUserByCpf = async (cpf: string): Promise<Boolean> => {
-    const connection = await connectOnDatabase();
+    export const deleteUserByCpf = async (cpf: string): Promise<Boolean> => {
+        const connection = await connectOnDatabase();
 
-    try {
-        await connection!.execute (
-            `DELETE FROM PESSOA
-            WHERE cpf = :cpf`,
-            [cpf]
-        );
+        try {
+            await connection!.execute (
+                `DELETE FROM PESSOA
+                WHERE cpf = :cpf`,
+                [cpf]
+            );
 
-        await commitAndCloseDatabase(connection!);
+            await commitAndCloseDatabase(connection!);
 
-        return true;
-    } 
-    catch (error) {
-        return false;
+            return true;
+        } 
+        catch (error) {
+            return false;
+        }
     }
-}

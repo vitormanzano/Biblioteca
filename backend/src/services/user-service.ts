@@ -58,6 +58,14 @@ export const getAllUsersService = async (): Promise<HttpResponseModel> => {
 
 export const getUserByCpfService = async (cpf: string): Promise<HttpResponseModel> => {
     let response = null;
+
+    const cpfIsValid = await verifyCpfLength(cpf);
+
+    if (!cpfIsValid) {
+        response = await httpResponse.badRequest({message: "Cpf inválido"});
+        return response;
+    }
+
     const searchedUser = await UserRepository.getUserByCpf(cpf);
 
     if (searchedUser) {
@@ -75,7 +83,14 @@ export const deleteUserByCpfService = async (cpf: string): Promise<HttpResponseM
 
     const hasDeletedUser = await UserRepository.deleteUserByCpf(cpf);
 
-    if (!cpf) {
+    const cpfIsValid = await verifyCpfLength(cpf);
+
+    if (!cpfIsValid) {
+        response = await httpResponse.badRequest({message: "Cpf inválido!"});
+        return response;
+    }
+
+    if (!hasDeletedUser) {
         response = await httpResponse.badRequest({message: "Não foi possível deletar o usuário"});
     }
     else {
