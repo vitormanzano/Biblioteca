@@ -4,7 +4,7 @@ import * as BookRepository from "../repositories/book-repository";
 import * as httpResponse from "../utils/http-helper";
 
 export const getAllBooksService = async (): Promise<HttpResponseModel> => {
-    const data = await BookRepository.findAllBooks();
+    const data = await BookRepository.getAllBooks();
     let response = null;
 
     if (data) {
@@ -17,7 +17,9 @@ export const getAllBooksService = async (): Promise<HttpResponseModel> => {
 }
 
 export const getBookByGuidService = async (guid: string): Promise<HttpResponseModel> => {
-    const data = await BookRepository.findBookByGuid(guid);
+    guid = guid.trim();
+
+    const data = await BookRepository.getBookByGuid(guid);
     let response = null
 
     if (data) {
@@ -30,7 +32,9 @@ export const getBookByGuidService = async (guid: string): Promise<HttpResponseMo
 }
 
 export const getBooksByNameService = async (title: string): Promise<HttpResponseModel> => {
-    const data = await BookRepository.findBookByName(title);
+    title = title.trim();
+
+    const data = await BookRepository.getBookByName(title);
     let response = null;
 
     if (data) {
@@ -43,7 +47,9 @@ export const getBooksByNameService = async (title: string): Promise<HttpResponse
 }
 
 export const deleteBookByGuidService = async (guid: string): Promise<HttpResponseModel> => {
-    const existId = await BookRepository.findBookByGuid(guid);
+    guid = guid.trim();
+
+    const existId = await BookRepository.getBookByGuid(guid);
     let response = null;
 
     if (existId === undefined) {
@@ -63,6 +69,9 @@ export const deleteBookByGuidService = async (guid: string): Promise<HttpRespons
 }
 
 export const insertBookService = async (book: BookModel): Promise<HttpResponseModel> => {
+    book.autor = book.autor.trim();
+    book.titulo = book.titulo.trim();
+
     let response = null;
     const hasCreated = await BookRepository.insertBook(book);
 
@@ -76,14 +85,19 @@ export const insertBookService = async (book: BookModel): Promise<HttpResponseMo
 }
 
 export const updateBookByGuidService = async (guid: string, book: BookModel): Promise<HttpResponseModel> => {
-    const existId = await BookRepository.findBookByGuid(guid);
+    guid = guid.trim();
+
+    book.autor = book.autor.trim();
+    book.titulo = book.titulo.trim();
+
+    const existId = await BookRepository.getBookByGuid(guid);
     let response = null;
 
     if (existId === undefined) {
         response = await httpResponse.badRequest({message: "Não foi possível achar o livro!"})
     }
     else {
-        const data = await BookRepository.findAndModifyBookByGuid(guid, book);
+        const data = await BookRepository.getAndModifyBookByGuid(guid, book);
         response = await httpResponse.ok(data);
     }
     return response;

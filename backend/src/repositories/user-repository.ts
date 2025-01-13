@@ -70,19 +70,19 @@ export const getUserByCpf = async (cpf: string): Promise<UserModel | undefined> 
             WHERE cpf = :cpf`,
             [cpf]
         );
-        let rows = selectedUser?.rows as any;
+        let userQuery = selectedUser?.rows as any;
 
-        const isUndefinedOrVoid = await verifyIsUndefinedOrVoid(rows);
+        const isUndefinedOrVoid = await verifyIsUndefinedOrVoid(userQuery);
 
         if (isUndefinedOrVoid) {
             return undefined;
         } 
 
         const user: UserModel = {
-            cpf: rows[0][0],
-            nome: rows[0][1],
-            email: rows[0][2],
-            senha: rows[0][3]
+            cpf: userQuery[0][0],
+            nome: userQuery[0][1],
+            email: userQuery[0][2],
+            senha: userQuery[0][3]
         };
         
         commitAndCloseDatabase(connection!);

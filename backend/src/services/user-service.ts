@@ -12,6 +12,11 @@ async function verifyCpfLength (cpf: string): Promise<Boolean> {
 
 
 export const insertUserService = async (user: UserModel): Promise<HttpResponseModel> => {
+    user.cpf = user.cpf.trim();
+    user.email = user.email.trim();
+    user.nome = user.nome.trim();
+    user.senha = user.senha.trim();
+
     let response = null;
 
     const isEmail = validator.isEmail(user.email);
@@ -57,6 +62,8 @@ export const getAllUsersService = async (): Promise<HttpResponseModel> => {
 }
 
 export const getUserByCpfService = async (cpf: string): Promise<HttpResponseModel> => {
+    cpf = cpf.trim();
+
     let response = null;
 
     const cpfIsValid = await verifyCpfLength(cpf);
@@ -79,6 +86,8 @@ export const getUserByCpfService = async (cpf: string): Promise<HttpResponseMode
 }
 
 export const deleteUserByCpfService = async (cpf: string): Promise<HttpResponseModel> => {
+    cpf = cpf.trim();
+
     let response = null;
 
     const hasDeletedUser = await UserRepository.deleteUserByCpf(cpf);
