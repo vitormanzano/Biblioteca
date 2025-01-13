@@ -5,21 +5,21 @@ import { insertActor } from "./insertActor-repository";
 import { verifyIsUndefinedOrVoid } from "./verifyUndefined -repository";
 import { commitAndCloseDatabase } from "../data/commitAndCloseDatabase";
 
-export const findAllBooks = async (): Promise<BookModel[] | undefined> => {
+export const getAllBooks = async (): Promise<BookModel[] | undefined> => {
     const connection = await connectOnDatabase();
 
     let allBooks = await connection!.execute(
         `SELECT * FROM LIVRO`
     );
 
-    let rows = allBooks?.rows;  
+    let allBooksQuery = allBooks?.rows;  
     
-    const isUndefinedOrVoid = await verifyIsUndefinedOrVoid(rows);
+    const isUndefinedOrVoid = await verifyIsUndefinedOrVoid(allBooksQuery);
     if (isUndefinedOrVoid) {
         return undefined;
     }
 
-    const books: BookModel[] = rows!.map((row: any) => ({
+    const books: BookModel[] = allBooksQuery!.map((row: any) => ({
         GUID: row[0],
         titulo: row[1],
         autor: row[2],
@@ -30,7 +30,7 @@ export const findAllBooks = async (): Promise<BookModel[] | undefined> => {
     return books;
 }
 
-export const findBookByGuid = async (guid: string): Promise<BookModel | undefined> => {
+export const getBookByGuid = async (guid: string): Promise<BookModel | undefined> => {
     let connection = await connectOnDatabase();
 
     let getBookById = await connection!.execute (
@@ -39,19 +39,19 @@ export const findBookByGuid = async (guid: string): Promise<BookModel | undefine
         [guid]
     );
 
-    let rows = getBookById?.rows as any;
+    let bookQuery = getBookById?.rows as any;
     
-    const isUndefinedOrVoid = await verifyIsUndefinedOrVoid(rows);
+    const isUndefinedOrVoid = await verifyIsUndefinedOrVoid(bookQuery);
 
     if (isUndefinedOrVoid) {
         return undefined;
     }
 
     const book: BookModel = {
-        GUID: rows![0][0],
-        titulo: rows![0][1],
-        autor: rows![0][2],
-        paginas: rows![0][3]
+        GUID: bookQuery![0][0],
+        titulo: bookQuery![0][1],
+        autor: bookQuery![0][2],
+        paginas: bookQuery![0][3]
     };
 
     await commitAndCloseDatabase(connection!)
@@ -59,7 +59,7 @@ export const findBookByGuid = async (guid: string): Promise<BookModel | undefine
     return book;
 }
 
-export const findBookByName = async (title: string): Promise<BookModel[] | undefined> => {
+export const getBookByName = async (title: string): Promise<BookModel[] | undefined> => {
     let connection = await connectOnDatabase(); 
 
     try {
@@ -69,14 +69,14 @@ export const findBookByName = async (title: string): Promise<BookModel[] | undef
         [searchTitle]
     );
     
-    let rows = searchedBooksList?.rows;
+    let searchedBooksQuery = searchedBooksList?.rows;
 
-    const isUndefinedOrVoid = await verifyIsUndefinedOrVoid(rows);
+    const isUndefinedOrVoid = await verifyIsUndefinedOrVoid(searchedBooksQuery);
     if (isUndefinedOrVoid) {
         return undefined;
     }
 
-    const books: BookModel[] = rows!.map((row: any) => ({
+    const books: BookModel[] = searchedBooksQuery!.map((row: any) => ({
         GUID: row[0],
         titulo: row[1],
         autor: row[2],
@@ -148,7 +148,7 @@ export const insertBook = async (book: BookModel): Promise<Boolean> => {
     }
 }
 
-export const findAndModifyBookByGuid = async (guid: string, book: BookModel): Promise<BookModel> => {
+export const getAndModifyBookByGuid = async (guid: string, book: BookModel): Promise<BookModel> => {
     let connection = await connectOnDatabase();
 
     await connection?.execute (
