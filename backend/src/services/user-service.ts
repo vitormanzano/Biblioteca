@@ -5,7 +5,6 @@ import * as httpResponse from "../utils/http-helper";
 import validator from 'validator';
 
 async function verifyCpfLength (cpf: string): Promise<Boolean> {
-    console.log(cpf.length);
     if (cpf.length != 11) return false;
     return true;
 }
