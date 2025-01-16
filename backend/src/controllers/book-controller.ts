@@ -33,7 +33,7 @@ export const postBook = async (req: Request, res: Response) => {
     const book = req.body as BookModel;
     let httpResponse = null;
 
-    if (!book.autor || !book.titulo || book.paginas) {
+    if (!book.autor || !book.titulo || !book.paginas) {
         httpResponse = await HttpResponse.badRequest({ message: "Faltam parâmetros"});
         res.status(httpResponse.statusCode).json(httpResponse.body);
     }
