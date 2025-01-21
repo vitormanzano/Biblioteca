@@ -2,7 +2,7 @@ import { BookModel } from "../models/book-model";
 import {connectOnDatabase} from "../data/connectDatabase"
 import { createGUID } from "../data/create-guid";
 import { insertActor } from "./insertActor-repository";
-import { verifyIsUndefinedOrVoid } from "./verifyUndefined -repository";
+import { verifyIsUndefinedOrVoid } from "../validators/verifyUndefined -repository";
 import { commitAndCloseDatabase } from "../data/commitAndCloseDatabase";
 
 export const getAllBooks = async (): Promise<BookModel[] | undefined> => {

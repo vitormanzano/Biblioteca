@@ -3,12 +3,7 @@ import { UserModel } from "../models/user-model";
 import * as UserRepository from "../repositories/user-repository"
 import * as httpResponse from "../utils/http-helper";
 import validator from 'validator';
-
-async function verifyCpfLength (cpf: string): Promise<Boolean> {
-    if (cpf.length != 11) return false;
-    return true;
-}
-
+import { verifyCpfLength } from "../validators/verifyLengthCpf";
 
 export const insertUserService = async (user: UserModel): Promise<HttpResponseModel> => {
     user.cpf = user.cpf.trim();

@@ -1,21 +1,21 @@
 import { commitAndCloseDatabase } from "../data/commitAndCloseDatabase";
 import { connectOnDatabase } from "../data/connectDatabase";
 import { UserModel } from "../models/user-model";
-import { verifyIsUndefinedOrVoid } from "./verifyUndefined -repository";
+import { verifyIsUndefinedOrVoid } from "../validators/verifyUndefined -repository";
 
 export const insertUser = async (user: UserModel): Promise<Boolean> => {
     const connection = await connectOnDatabase();
 
     try {
-            await connection!.execute (
-            `INSERT INTO PESSOA (cpf, nome, email, senha) 
-                VALUES (:cpf, :nome, :email, :senha)`,
-                [
-                    user.cpf,
-                    user.email,
-                    user.nome,
-                    user.senha
-                ]
+        await connection!.execute (
+        `INSERT INTO PESSOA (cpf, nome, email, senha) 
+            VALUES (:cpf, :nome, :email, :senha)`,
+            [
+                user.cpf,
+                user.email,
+                user.nome,
+                user.senha
+            ]
         );
 
         await commitAndCloseDatabase(connection!)
