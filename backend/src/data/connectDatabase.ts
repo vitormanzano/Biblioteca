@@ -1,10 +1,5 @@
 import oracledb from 'oracledb';
-
-const dbConfig = {
-    user: process.env.ORACLE_USER,
-    password: process.env.ORACLE_PASSWORD,
-    connectString: process.env.ORACLE_CONN_STR
-} as const;
+import { dbConfig } from './DatabaseConfig';
 
 export async function connectOnDatabase() {
     try {
