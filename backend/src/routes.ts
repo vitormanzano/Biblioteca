@@ -8,15 +8,13 @@ const router = Router();
 
 router.get("/books", BookController.getAllBooks);
 router.get("/books/:guid", BookController.getBookByGuid);
-router.get("/books/search/:title", BookController.getBooksByName);
+router.get("/books/search/:title", BookController.getBooksByTitle);
 
 router.post("/books", BookController.postBook);
 
 router.patch("/books/:guid", BookController.updateBookByGuid);
 
 router.delete("/books/:guid", BookController.deleteBookByGuid);
-
-
 
 //Rotas do usuário
 
@@ -25,10 +23,6 @@ router.get("/user", UserController.getAllUsers);
 
 router.post("/user", UserController.postUser);
 
-
-
 router.delete("/user/:cpf", UserController.deleteUserByCpf);
-
-
 
 export default router;
