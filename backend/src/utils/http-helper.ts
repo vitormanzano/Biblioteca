@@ -36,3 +36,17 @@ export const notFound = async (data: any): Promise<HttpResponseModel> => {
         body: data
     };
 };
+
+export const serverError = async (error: Error): Promise<HttpResponseModel> => {
+    return  {
+        statusCode: 500,
+        body: error
+    }
+}
+
+export const conflict =  async (error: Error): Promise<HttpResponseModel> => {
+    return {
+        statusCode: 409,
+        body: error
+    }
+}
