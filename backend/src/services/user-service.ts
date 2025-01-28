@@ -2,30 +2,17 @@ import { HttpResponseModel } from "../models/http-response-model";
 import { UserModel } from "../models/user-model";
 import * as UserRepository from "../repositories/user-repository"
 import * as httpResponse from "../utils/http-helper";
-import validator from 'validator';
-import { verifyCpfLength } from "../validators/verifyLengthCpf";
+import { isValidCPF } from "../validators/VerifyCpf";
+import { isValidEmail } from "../validators/verifyEmail";
 
 export const insertUserService = async (user: UserModel): Promise<HttpResponseModel> => {
-    user.cpf = user.cpf.trim();
-    user.email = user.email.trim();
-    user.nome = user.nome.trim();
-    user.senha = user.senha.trim();
+    removeBlankSpacesFromReq([user.cpf, user.email, user.nome, user.senha]);
 
     let response = null;
 
-    const isEmail = validator.isEmail(user.email);
+    isValidCPF(user.cpf);
 
-    if (!isEmail) {
-        response = await httpResponse.badRequest("Insira um email válido!");
-        return response;
-    }
-
-    const isCpfValid = await verifyCpfLength(user.cpf);
-
-    if (!isCpfValid ) {
-        response = await httpResponse.badRequest("Insira um cpf válido!");
-        return response;
-    }
+    isValidEmail(user.email);
 
     user.nome = user.nome[0].toUpperCase();
 
@@ -60,12 +47,7 @@ export const getUserByCpfService = async (cpf: string): Promise<HttpResponseMode
 
     let response = null;
 
-    const cpfIsValid = await verifyCpfLength(cpf);
-
-    if (!cpfIsValid) {
-        response = await httpResponse.badRequest({message: "Cpf inválido"});
-        return response;
-    }
+    isValidCPF(cpf);
 
     const searchedUser = await UserRepository.getUserByCpf(cpf);
 
@@ -86,12 +68,7 @@ export const deleteUserByCpfService = async (cpf: string): Promise<HttpResponseM
 
     const hasDeletedUser = await UserRepository.deleteUserByCpf(cpf);
 
-    const cpfIsValid = await verifyCpfLength(cpf);
-
-    if (!cpfIsValid) {
-        response = await httpResponse.badRequest({message: "Cpf inválido!"});
-        return response;
-    }
+    isValidCPF(cpf); 
 
     if (!hasDeletedUser) {
         response = await httpResponse.badRequest({message: "Não foi possível deletar o usuário"});
@@ -102,3 +79,9 @@ export const deleteUserByCpfService = async (cpf: string): Promise<HttpResponseM
     return response
 }
 
+export async function removeBlankSpacesFromReq(fields: string[]): Promise<void> {
+    for (let field in fields) {
+        field.trim();
+    }
+
+}
