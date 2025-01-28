@@ -15,7 +15,7 @@ export const getBookByGuid = async (req: Request, res: Response) => {
     res.status(httpResponse.statusCode).json(httpResponse.body);
 }
 
-export const getBooksByTitle = async (req: Request, res: Response) => {
+export const getBooksByName = async (req: Request, res: Response) => {
     const title = (req.params.title).toString();
 
     const httpResponse = await BookService.getBooksByNameService(title);

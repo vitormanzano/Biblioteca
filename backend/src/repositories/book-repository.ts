@@ -1,9 +1,9 @@
 import { BookModel } from "../models/book-model";
 import {connectOnDatabase} from "../data/connectDatabase"
 import { createGUID } from "../data/create-guid";
+import { insertActor } from "./insertActor-repository";
 import { verifyIsUndefinedOrVoid } from "../validators/verifyUndefined -repository";
 import { commitAndCloseDatabase } from "../data/commitAndCloseDatabase";
-import * as AuthorRepository from "./author-repository";
 
 export const getAllBooks = async (): Promise<BookModel[] | undefined> => {
     const connection = await connectOnDatabase();
@@ -87,6 +87,7 @@ export const getBookByName = async (title: string): Promise<BookModel[] | undefi
 
     }
     catch (err) {
+        console.log("Erro ao executar: ");
         return undefined;
     }
     finally {
@@ -96,7 +97,6 @@ export const getBookByName = async (title: string): Promise<BookModel[] | undefi
 
 export const deleteBookByGuid = async (guid: string): Promise<Boolean> => {
     let connection = await connectOnDatabase();
-
     try {
         await connection?.execute (
             `DELETE FROM LIVRO WHERE GUID = :guid`,
@@ -118,20 +118,22 @@ export const insertBook = async (book: BookModel): Promise<Boolean> => {
     const GUID = await createGUID();
     
     try {
-        
-        const searchAuthorQuery = await AuthorRepository.findAuthorByName(book.autor, connection!);
+        const searchActor =  await connection?.execute (
+            `SELECT guid FROM AUTOR WHERE nome = :nome`,
+            [book.autor]
+        ) as [Array<{GUID: string}>]
 
-        const GUIDAuthor = await verifyIsUndefinedOrVoid(searchAuthorQuery[0]) ? 
-                          await AuthorRepository.insertAuthor(book.autor) : 
-                          searchAuthorQuery[0]; 
+        const GUIDActor = await verifyIsUndefinedOrVoid(searchActor[0]) ? 
+                          await insertActor(book.autor) : 
+                          searchActor[0]; 
         
         await connection?.execute (
             `INSERT INTO LIVRO (GUID, titulo, autor_guid, paginas) 
-                        VALUES (:GUID, :titulo, :GUIDAuthor, :paginas)`,
+                        VALUES (:GUID, :titulo, :GUIDActor, :paginas)`,
             [   
                 {val: GUID},
                 {val: book.titulo},
-                {val: GUIDAuthor},
+                {val: GUIDActor},
                 {val: book.paginas}
             ]
         );
