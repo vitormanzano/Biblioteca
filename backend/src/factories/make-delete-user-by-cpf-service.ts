@@ -1,4 +1,4 @@
-import { SQLUsersRepository } from "../repositories/user-repository";
+import { SQLUsersRepository } from "../repositories/SQL-user-repository";
 import { DeleteUserByCpfService } from "../services/user/delete-user/delete-user-by-cpf-service";
 
 export function makeDeleteUserByCpfService() {
