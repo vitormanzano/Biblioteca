@@ -1,4 +1,4 @@
-import { SQLUsersRepository } from "../repositories/user-repository";
+import { SQLUsersRepository } from "../repositories/SQL-user-repository";
 import { InsertUserService } from "../services/user/insert-user/insert-user-service";
 
 export function makeInsertUserService() {
