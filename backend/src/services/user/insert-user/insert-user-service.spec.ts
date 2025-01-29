@@ -21,10 +21,10 @@ describe('Create a user', () => {
             senha: "1234"
         };
 
-        const response = await sut.execute(user);
+        const hasCreatedUser = await sut.execute(user);
 
-        expect(response.statusCode).toEqual(201);
-        expect(response.body).toEqual(expect.objectContaining({
+        expect(hasCreatedUser.statusCode).toEqual(201);
+        expect(hasCreatedUser.body).toEqual(expect.objectContaining({
             message: "Successful"
         }))
     });

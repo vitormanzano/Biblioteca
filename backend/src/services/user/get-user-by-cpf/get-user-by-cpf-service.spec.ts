@@ -25,9 +25,9 @@ describe('Get user by cpf', async () => {
 
         const validCpf = "12345678910";
 
-        const response = await sut.execute(validCpf);
+        const hasUser = await sut.execute(validCpf);
 
-        expect(response.statusCode).toEqual(200);
+        expect(hasUser.statusCode).toEqual(200);
     });
 
     it('Should not be able to get a user if cpf not exists', async () => {
@@ -42,9 +42,9 @@ describe('Get user by cpf', async () => {
 
         const notExistCpf = "12345678911";
 
-        const response = await sut.execute(notExistCpf);
+        const hasUser = await sut.execute(notExistCpf);
 
-        expect(response.statusCode).toEqual(404);
+        expect(hasUser.statusCode).toEqual(404);
     });
 
     it('Should not be able to get a user if cpf is invalid', async () => {
@@ -56,7 +56,6 @@ describe('Get user by cpf', async () => {
         };
 
         await usersRepository.insertUser(user);
-
 
         const invalidCpf = "123456789";
 

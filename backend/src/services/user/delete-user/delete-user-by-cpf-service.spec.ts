@@ -25,9 +25,9 @@ describe('Delete user by cpf service', async () => {
 
         const validCpf = "12345678910";
 
-        const response = await sut.execute(validCpf);
+        const hasDeleted = await sut.execute(validCpf);
 
-        expect(response.statusCode).toEqual(200);
+        expect(hasDeleted.statusCode).toEqual(200);
     });
 
     it('Should not be able to delete a user if he not exist', async () => {
@@ -42,9 +42,9 @@ describe('Delete user by cpf service', async () => {
 
         const notExistCpf = "12345678911";
 
-        const response = await sut.execute(notExistCpf);
+        const hasDeleted = await sut.execute(notExistCpf);
 
-        expect(response.statusCode).toEqual(400);
+        expect(hasDeleted.statusCode).toEqual(400);
 
     })
 
