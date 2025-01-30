@@ -1,4 +1,4 @@
-import { IUsersRepository } from "backend/src/repositories/user-repository-interface";
+import { IUsersRepository } from "backend/src/repositories/models-repository/user-repository-interface";
 import { DeleteUserByCpfService } from "./delete-user-by-cpf-service";
 import { beforeEach, describe, expect, it } from "vitest";
 import { InMemoryUsersRepository } from "backend/src/repositories/in-memory/in-memory-user";

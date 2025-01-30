@@ -1,22 +1,22 @@
 import { UserModel } from "../../models/user-model";
-import { IUsersRepository } from "../user-repository-interface";
+import { IUsersRepository } from "../models-repository/user-repository-interface";
 
 export class InMemoryUsersRepository implements IUsersRepository {
-    public items: UserModel[] = [];
+    private userList: UserModel[] = [];
 
     async insertUser(user: UserModel): Promise<Boolean> {
-        this.items.push(user);
+        this.userList.push(user);
 
         return true;
     }
     async getAllUsers(): Promise<UserModel[] | undefined> {
-        if (this.items.length === 0 ) {
+        if (this.userList.length === 0 ) {
             return undefined;
         }
-        return this.items;
+        return this.userList;
     }
     async getUserByCpf(cpf: string): Promise<UserModel | undefined> {
-        const user = this.items.find(item => item.cpf === cpf);
+        const user = this.userList.find(item => item.cpf === cpf);
 
         if (!user) {
             return undefined
@@ -24,12 +24,12 @@ export class InMemoryUsersRepository implements IUsersRepository {
         return user;
     }
     async deleteUserByCpf(cpf: string): Promise<boolean> {
-        const index = this.items.findIndex(item => item.cpf === cpf);
+        const index = this.userList.findIndex(item => item.cpf === cpf);
 
         if (index == -1) {
             return false;
         }
-        this.items.splice(index, 1);
+        this.userList.splice(index, 1);
         return true;
 
     }

@@ -4,7 +4,7 @@ import { UserModel } from "../../../models/user-model";
 import { isValidCPF } from "../../../validators/VerifyCpf";
 import { isValidEmail } from "../../../validators/verifyEmail";
 import * as httpResponse from "../../../utils/http-helper";
-import { IUsersRepository } from "../../../repositories/user-repository-interface";
+import { IUsersRepository } from "../../../repositories/models-repository/user-repository-interface";
 import { removeBlankSpacesFromReq } from "backend/src/utils/removeBlankSpacesFromReq";
 
 export class InsertUserService {
