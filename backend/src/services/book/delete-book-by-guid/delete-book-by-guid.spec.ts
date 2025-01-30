@@ -20,12 +20,27 @@ describe('Delete book by guid service', async () => {
             autor: 'autorTeste',
             paginas: 10
         }; 
-
         
         await booksRepository.insertBook(bookForCreation);
 
-        const hasDeletedBook = await booksRepository.deleteBookByGuid('1234');
+        const hasDeletedBook = await sut.execute('1234');
 
-        expect(hasDeletedBook).toEqual(true);
+        expect(hasDeletedBook.statusCode).toEqual(200);
     });
-})
+
+    it('Should not be able to deleta a book if not exist', async () => {
+        const bookForCreation: BookModel = {
+            GUID: '1234',
+            titulo: 'livroTeste',
+            autor: 'autorTeste',
+            paginas: 10
+        }; 
+        
+        await booksRepository.insertBook(bookForCreation);
+
+        const hasDeletedBook = await sut.execute('12345');
+
+        expect(hasDeletedBook.statusCode).toEqual(400);
+    });
+    
+});

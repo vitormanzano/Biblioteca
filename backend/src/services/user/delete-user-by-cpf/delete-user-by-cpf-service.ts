@@ -10,11 +10,11 @@ export class DeleteUserByCpfService {
 
         cpf = cpf.trim();
 
-        let response = null;
+        await isValidCPF(cpf);
 
         const hasDeletedUser = await this.usersRepository.deleteUserByCpf(cpf);
 
-        await isValidCPF(cpf); 
+        let response = null;
 
         if (!hasDeletedUser) {
             response = await httpResponse.badRequest({message: "Não foi possível deletar o usuário"});
