@@ -1,4 +1,4 @@
-import { SQLUsersRepository } from "../repositories/SQL-user-repository";
+import { SQLUsersRepository } from "../repositories/SQL/SQL-user-repository";
 import { GetUserByCpfService } from "../services/user/get-user-by-cpf/get-user-by-cpf-service";
 
 export function makeGetUserByCpfService() {

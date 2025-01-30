@@ -1,4 +1,4 @@
-import { SQLUsersRepository } from "../repositories/SQL-user-repository";
+import { SQLUsersRepository } from "../repositories/SQL/SQL-user-repository";
 import { GetAllUsersService } from "../services/user/get-all-users/get-all-users-service";
 
 export function makeGetAllUsersService() {
