@@ -1,4 +1,4 @@
-import { IUsersRepository } from "backend/src/repositories/user-repository-interface";
+import { IUsersRepository } from "backend/src/repositories/models-repository/user-repository-interface";
 import { HttpResponseModel } from "../../../models/http-response-model";
 import * as httpResponse from "../../../utils/http-helper";
 import { isValidCPF } from "../../../validators/VerifyCpf";

@@ -3,8 +3,8 @@ import {connectOnDatabase} from "../../data/connectDatabase"
 import { createGUID } from "../../data/create-guid";
 import { verifyIsUndefinedOrVoid } from "../../validators/verifyUndefined -repository";
 import { commitAndCloseDatabase } from "../../data/commitAndCloseDatabase";
-import * as AuthorRepository from ".././author-repository";
-import { IBooksRepository } from "../book-repository-interface";
+import * as AuthorRepository from "../author-repository";
+import { IBooksRepository } from "../models-repository/book-repository-interface";
 
 export class SQLBooksRepository implements IBooksRepository {
     
@@ -149,7 +149,7 @@ export class SQLBooksRepository implements IBooksRepository {
         }
     }
 
-    async getAndModifyBookByGuid(guid: string, book: BookModel): Promise<BookModel> {
+    async getAndModifyBookByGuid(guid: string, book: BookModel): Promise<BookModel | undefined> {
         let connection = await connectOnDatabase();
 
         await connection?.execute (

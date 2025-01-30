@@ -2,7 +2,7 @@ import { commitAndCloseDatabase } from "../../data/commitAndCloseDatabase";
 import { connectOnDatabase } from "../../data/connectDatabase";
 import { UserModel } from "../../models/user-model";
 import { verifyIsUndefinedOrVoid } from "../../validators/verifyUndefined -repository";
-import { IUsersRepository } from "../user-repository-interface";
+import { IUsersRepository } from "../models-repository/user-repository-interface";
 
 export class SQLUsersRepository implements IUsersRepository {
 

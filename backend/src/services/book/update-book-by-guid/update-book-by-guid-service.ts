@@ -1,6 +1,6 @@
 import { BookModel } from "backend/src/models/book-model";
 import { HttpResponseModel } from "backend/src/models/http-response-model";
-import { IBooksRepository } from "backend/src/repositories/book-repository-interface";
+import { IBooksRepository } from "backend/src/repositories/models-repository/book-repository-interface";
 import * as httpResponse from "../../../utils/http-helper";
 
 export class UpdateBookByGuidService {
