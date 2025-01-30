@@ -15,11 +15,12 @@ export class DeleteBookByGuidService {
         if (existId === undefined) {
             response = await httpResponse.badRequest({message: "Não foi possível achar o livro!"});
             return response
-        } 
-    
+        }
+
         const isDeleted = await this.booksRepository.deleteBookByGuid(guid);
     
         if (isDeleted) {
+           
             response = await httpResponse.ok({message: "Livro Deletado!"}); 
         }
         else {

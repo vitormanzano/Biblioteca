@@ -44,9 +44,6 @@ export class InMemoryBookRepository implements IBooksRepository {
     async deleteBookByGuid(guid: string): Promise<Boolean> {
         const bookHasFinded = this.bookList.findIndex(book => book.GUID === guid);
 
-        if (!bookHasFinded) {
-            return false;
-        }
         this.bookList.splice(bookHasFinded, 1); //Splice => Delete the book in the index of bookHasFinded
         return true;
     }
