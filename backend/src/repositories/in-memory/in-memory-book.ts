@@ -27,7 +27,18 @@ export class InMemoryBookRepository implements IBooksRepository {
     }
 
     async getBookByTitle(title: string): Promise<BookModel[] | undefined> {
-        //TODO
+        const bookListTitle: BookModel[] = [];
+
+        for (let i = 0; i < this.bookList.length; i++) {
+            if (this.bookList[i].titulo.includes(title)) {
+                bookListTitle.push(this.bookList[i]);
+            }
+        }
+
+        if (!bookListTitle) {
+            return undefined;
+        }
+        return bookListTitle;
     }
 
     async deleteBookByGuid(guid: string): Promise<Boolean> {
