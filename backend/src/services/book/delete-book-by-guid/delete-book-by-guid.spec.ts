@@ -23,7 +23,9 @@ describe('Delete book by guid service', async () => {
         
         await booksRepository.insertBook(bookForCreation);
 
-        const hasDeletedBook = await sut.execute('1234');
+        const existGuid = '1234'
+
+        const hasDeletedBook = await sut.execute(existGuid);
 
         expect(hasDeletedBook.statusCode).toEqual(200);
     });
@@ -38,7 +40,9 @@ describe('Delete book by guid service', async () => {
         
         await booksRepository.insertBook(bookForCreation);
 
-        const hasDeletedBook = await sut.execute('12345');
+        const notExistGuid = '12345'
+
+        const hasDeletedBook = await sut.execute(notExistGuid);
 
         expect(hasDeletedBook.statusCode).toEqual(400);
     });
