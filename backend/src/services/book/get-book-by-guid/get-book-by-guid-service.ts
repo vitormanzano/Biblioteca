@@ -11,6 +11,8 @@ export class GetBookByGuidService {
         const data = await this.booksRepository.getBookByGuid(guid);
         let response = null
 
+        
+
         if (data) {
             response = await httpResponse.ok(data);
         }

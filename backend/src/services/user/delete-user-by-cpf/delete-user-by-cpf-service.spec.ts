@@ -13,7 +13,7 @@ describe('Delete user by cpf service', async () => {
         sut = new DeleteUserByCpfService(usersRepository);
     });
 
-    it('Should deleted a user with cpf', async () => {
+    it('Should delete a user with cpf', async () => {
         const user: UserModel = {
             cpf: "12345678910",
             nome: "Vitor",
