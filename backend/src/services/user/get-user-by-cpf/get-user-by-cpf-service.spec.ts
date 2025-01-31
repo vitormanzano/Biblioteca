@@ -13,7 +13,7 @@ describe('Get user by cpf', async () => {
         sut = new GetUserByCpfService(usersRepository);
     });
 
-    it('Should be able to get user by cpf', async () => {
+    it('Should be able to geta user by cpf', async () => {
         const user: UserModel = {
             cpf: "12345678910",
             nome: "Vitor",
