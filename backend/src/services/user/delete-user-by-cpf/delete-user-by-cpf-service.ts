@@ -7,7 +7,7 @@ export class DeleteUserByCpfService {
     constructor (private usersRepository: IUsersRepository) {}
 
     async execute(cpf: string): Promise<HttpResponseModel> {
-
+        
         cpf = cpf.trim();
 
         await isValidCPF(cpf);
@@ -15,7 +15,7 @@ export class DeleteUserByCpfService {
         const hasDeletedUser = await this.usersRepository.deleteUserByCpf(cpf);
 
         let response = null;
-
+        
         if (!hasDeletedUser) {
             response = await httpResponse.badRequest({message: "Não foi possível deletar o usuário"});
         }

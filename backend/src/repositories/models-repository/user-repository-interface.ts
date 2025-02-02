@@ -1,3 +1,4 @@
+import { IUserSigninModel } from "backend/src/models/user-signIn-model";
 import { UserModel } from "../../models/user-model";
 
 export interface IUsersRepository {
@@ -5,4 +6,5 @@ export interface IUsersRepository {
     getAllUsers(): Promise<UserModel[] | undefined>
     getUserByCpf(cpf: string): Promise<UserModel | undefined>
     deleteUserByCpf(cpf: string): Promise<boolean>
+    findByEmail(email: string): Promise<UserModel | undefined>
 }
