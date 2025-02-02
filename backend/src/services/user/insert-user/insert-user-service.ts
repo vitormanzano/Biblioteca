@@ -12,10 +12,10 @@ export class InsertUserService {
 
     async execute(user: UserModel): Promise<HttpResponseModel> {
 
-        removeBlankSpacesFromReq([user.cpf, user.email, user.nome, user.senha]);
+        await removeBlankSpacesFromReq([user.cpf, user.email, user.nome, user.senha]);
 
         await isValidCPF(user.cpf);
-
+        
         isValidEmail(user.email);
 
         user.nome = user.nome[0].toUpperCase();
