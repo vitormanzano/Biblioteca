@@ -5,7 +5,7 @@ import { verifyIsUndefinedOrVoid } from "../../validators/verifyUndefined -repos
 import { IUsersRepository } from "../models-repository/user-repository-interface";
 
 export class SQLUsersRepository implements IUsersRepository {
-
+    
     async insertUser(user: UserModel): Promise<Boolean> {
         const connection = await connectOnDatabase();
 
@@ -15,8 +15,8 @@ export class SQLUsersRepository implements IUsersRepository {
                 VALUES (:cpf, :nome, :email, :senha)`,
                 [
                     user.cpf,
-                    user.email,
                     user.nome,
+                    user.email,
                     user.senha
                 ]
             );
@@ -32,6 +32,40 @@ export class SQLUsersRepository implements IUsersRepository {
         }
     }
 
+    async findByEmail(email: string): Promise<UserModel | undefined> {
+        const connection = await connectOnDatabase();
+        try {
+            const searchedUserQuery = await connection!.execute(
+                `SELECT * FROM PESSOA
+                WHERE email = :email`,
+                [email]
+            );
+
+            let searchedUserRows = searchedUserQuery.rows as any;
+
+            const isUndefinedOrVoid = await verifyIsUndefinedOrVoid(searchedUserRows);
+
+            if (isUndefinedOrVoid) {
+                return undefined;
+            }
+
+            const user: UserModel = {
+                cpf: searchedUserRows[0][0] ,
+                nome: searchedUserRows[0][1],
+                email: searchedUserRows[0][2],
+                senha: searchedUserRows[0][3]
+            }
+
+            await commitAndCloseDatabase(connection!);
+
+            return user
+        } 
+        catch (error) {
+            console.log(error);
+            return undefined;
+        }
+    }
+
     async getAllUsers(): Promise<UserModel[] | undefined> {
         const connection = await connectOnDatabase();
 
@@ -39,6 +73,7 @@ export class SQLUsersRepository implements IUsersRepository {
             const allUsers = await connection!.execute (
                 `SELECT * FROM PESSOA`
             );
+
             let allUsersQuery = allUsers?.rows;  
     
             const isUndefinedOrVoid = await verifyIsUndefinedOrVoid(allUsersQuery);
@@ -100,12 +135,14 @@ export class SQLUsersRepository implements IUsersRepository {
         const connection = await connectOnDatabase();
 
         try {
+
             await connection!.execute (
                 `DELETE FROM PESSOA
                 WHERE cpf = :cpf`,
                 [cpf]
             );
 
+            
             await commitAndCloseDatabase(connection!);
 
             return true;
