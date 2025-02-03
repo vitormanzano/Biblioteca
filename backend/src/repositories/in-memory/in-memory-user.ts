@@ -2,6 +2,9 @@ import { UserModel } from "../../models/user-model";
 import { IUsersRepository } from "../models-repository/user-repository-interface";
 
 export class InMemoryUsersRepository implements IUsersRepository {
+    findByEmail(email: string): Promise<UserModel | undefined> {
+        throw new Error("Method not implemented.");
+    }
     private userList: UserModel[] = [];
 
     async insertUser(user: UserModel): Promise<Boolean> {
