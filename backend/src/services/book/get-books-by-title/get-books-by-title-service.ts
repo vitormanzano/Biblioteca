@@ -8,7 +8,7 @@ export class GetBookByTitleService {
     async execute(title: string): Promise<HttpResponseModel> {
         title = title.trim();
 
-        const data = await this.booksRepository.getBookByTitle(title);
+        const data = await this.booksRepository.getBooksByTitle(title);
         
         let response = null;
 

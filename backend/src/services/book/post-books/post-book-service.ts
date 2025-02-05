@@ -3,7 +3,7 @@ import { HttpResponseModel } from "backend/src/models/http-response-model";
 import { IBooksRepository } from "backend/src/repositories/models-repository/book-repository-interface";
 import * as httpResponse from "../../../utils/http-helper";
 
-export class InsertBookService {
+export class PostBookService {
     constructor(private booksRepository: IBooksRepository) {}
 
     async execute(book: BookModel): Promise<HttpResponseModel> {

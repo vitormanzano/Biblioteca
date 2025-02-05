@@ -36,8 +36,16 @@ export const postUser = async (req: Request, res: Response) => {
 
 export const getAllUsers = async (req: Request, res: Response) => {
     const getAllUsersService = makeGetAllUsersService();
+    let httpResponse = null;
 
-    let httpResponse = await getAllUsersService.execute();
+    try {
+        httpResponse = await getAllUsersService.execute();
+    }
+    catch (error) {
+        httpResponse = await HttpResponse.badRequest(error);
+    }
+
+    
     res.status(httpResponse.statusCode).json(httpResponse.body);
 }
 

@@ -26,7 +26,7 @@ export class InMemoryBookRepository implements IBooksRepository {
         return searchedBook;
     }
 
-    async getBookByTitle(title: string): Promise<BookModel[] | undefined> {
+    async getBooksByTitle(title: string): Promise<BookModel[] | undefined> {
         const bookListTitle: BookModel[] = [];
 
         for (let i = 0; i < this.bookList.length; i++) {
