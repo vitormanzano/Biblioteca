@@ -96,7 +96,7 @@ export class SQLBooksRepository implements IBooksRepository {
         return book;
     }
 
-    async getBookByTitle(title: string): Promise<BookModel[] | undefined> {
+    async getBooksByTitle(title: string): Promise<BookModel[] | undefined> {
         let connection = await connectOnDatabase(); 
 
         try {

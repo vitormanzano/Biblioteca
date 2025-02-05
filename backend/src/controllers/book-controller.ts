@@ -1,60 +1,71 @@
-// import { Request, Response } from "express";
-// import { BookModel } from "../models/book-model";
-// import * as HttpResponse from "../utils/http-helper" 
-// import { DeleteBookByGuidService } from "../services/book/delete-book-by-guid/delete-book-by-guid-service";  
-// import { GetAllBooksService } from "../services/book/get-all-books/get-all-books-service"; 
-// import { GetBookByGuidService } from "../services/book/get-book-by-guid/get-book-by-guid-service";
-// import { GetBookByTitleService } from "../services/book/get-books-by-title/get-books-by-title-service";
-// import { InsertBookService } from "../services/book/insert-books/insert-book-service";
-// import { UpdateBookByGuidService } from "../services/book/update-book-by-guid/update-book-by-guid-service";
+import { Request, Response } from "express";
+import { BookModel } from "../models/book-model";
+import * as HttpResponse from "../utils/http-helper" 
+import { GetAllBooksService } from "../services/book/get-all-books/get-all-books-service"; 
+import { makeDeleteBookByGuidService } from "../factories/make-delete-book-by-guid-service";
+import { makeGetAllBooksService } from "../factories/make-get-all-books-service";
+import { makeGetBookByGuidService } from "../factories/make-get-book-by-guid-service";
+import { makeGetBooksByTitleService } from "../factories/make-get-books-by-title-service";
+import { makePostBookService } from "../factories/make-post-book-service";
+import { makeUpdateBookByGuidService } from "../factories/make-update-book-by-guid-service";
 
-// export const getAllBooks = async (req: Request, res: Response) => {
-//     const httpResponse = await GetAllBooksService.execute();
-//     res.status(httpResponse.statusCode).json(httpResponse.body);
-// }
+export const getAllBooks = async (req: Request, res: Response) => {
+    const getAllBooksService = makeGetAllBooksService();
 
-// export const getBookByGuid = async (req: Request, res: Response) => {
-//     const guid = (req.params.guid).toString();
+    const httpResponse = await getAllBooksService.execute();
+    res.status(httpResponse.statusCode).json(httpResponse.body);
+}
 
-//     const httpResponse = await BookService.getBookByGuidService(guid);
-//     res.status(httpResponse.statusCode).json(httpResponse.body);
-// }
+export const getBookByGuid = async (req: Request, res: Response) => {
+    const guid = (req.params.guid).toString();
+    const getBookByGuidService = makeGetBookByGuidService();
 
-// export const getBooksByTitle = async (req: Request, res: Response) => {
-//     const title = (req.params.title).toString();
+    const httpResponse = await getBookByGuidService.execute(guid);
+    res.status(httpResponse.statusCode).json(httpResponse.body);
+}
 
-//     const httpResponse = await BookService.getBooksByNameService(title);
-//     res.status(httpResponse.statusCode).json(httpResponse.body);
-// }
+export const getBooksByTitle = async (req: Request, res: Response) => {
+    const title = (req.params.title).toString();
+    const getBooksByTitleService = makeGetBooksByTitleService();
 
-// export const deleteBookByGuid = async (req: Request, res: Response) => {
-//     const guid = (req.params.guid).toString();
+    const httpResponse = await getBooksByTitleService.execute(title);
+    res.status(httpResponse.statusCode).json(httpResponse.body);
+}
 
-//     const httpResponse = await BookService.deleteBookByGuidService(guid);
-//     res.status(httpResponse.statusCode).json(httpResponse.body);
-// }
+export const deleteBookByGuid = async (req: Request, res: Response) => {
+    const guid = (req.params.guid).toString();
 
-// export const postBook = async (req: Request, res: Response) => {
-//     const book = req.body as BookModel;
-//     let httpResponse = null;
+    const deleteBookByGuidService = makeDeleteBookByGuidService();
 
-//     if (!book.autor || !book.titulo || !book.paginas) {
-//         httpResponse = await HttpResponse.badRequest({ message: "Faltam parâmetros"});
-//         res.status(httpResponse.statusCode).json(httpResponse.body);
-//     }
-//     else {
-//         httpResponse = await BookService.insertBookService(book);
-//     }
+    const httpResponse = await deleteBookByGuidService.execute(guid);
+    res.status(httpResponse.statusCode).json(httpResponse.body);
+}
+
+export const postBook = async (req: Request, res: Response) => {
+    const book = req.body as BookModel;
+    let httpResponse = null;
+
+    const postBookService = makePostBookService();
+
+    if (!book.autor || !book.titulo || !book.paginas) {
+        httpResponse = await HttpResponse.badRequest({ message: "Faltam parâmetros"});
+        res.status(httpResponse.statusCode).json(httpResponse.body);
+    }
+    else {
+        httpResponse = await postBookService.execute(book);
+    }
     
-//     res.status(httpResponse.statusCode).json(httpResponse.body);
-// }
+    res.status(httpResponse.statusCode).json(httpResponse.body);
+}
 
-// //patch
-// export const updateBookByGuid = async (req: Request, res: Response) => {
-//     const guid = (req.params.guid).toString();
-//     const bodyValue: BookModel = req.body;
+//patch
+export const updateBookByGuid = async (req: Request, res: Response) => {
+    const guid = (req.params.guid).toString();
+    const bodyValue: BookModel = req.body;
 
-//     const httpResponse = await BookService.updateBookByGuidService(guid, bodyValue);
+    const updateBookByGuidService = makeUpdateBookByGuidService()
 
-//     res.status(httpResponse.statusCode).json(httpResponse.body);
-// }
+    const httpResponse = await updateBookByGuidService.execute(guid, bodyValue);
+
+    res.status(httpResponse.statusCode).json(httpResponse.body);
+}

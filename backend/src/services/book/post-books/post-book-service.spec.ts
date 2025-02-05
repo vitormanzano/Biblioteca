@@ -1,19 +1,19 @@
 import { IBooksRepository } from "backend/src/repositories/models-repository/book-repository-interface";
-import { InsertBookService } from "./insert-book-service";
+import { PostBookService } from "./post-book-service";
 import { beforeEach, describe, expect, it } from "vitest";
 import { InMemoryBookRepository } from "backend/src/repositories/in-memory/in-memory-book";
 import { BookModel } from "backend/src/models/book-model";
 
 let booksRepository: IBooksRepository;
-let sut: InsertBookService;
+let sut: PostBookService;
 
-describe('Insert book service', async () => {
+describe('Post book service', async () => {
     beforeEach(() => {
         booksRepository = new InMemoryBookRepository();
-        sut = new InsertBookService(booksRepository);
+        sut = new PostBookService(booksRepository);
     });
 
-    it('Should be able to insert a book', async () => {
+    it('Should be able to post a book', async () => {
         const bookForInsert: BookModel = {
             GUID: "12345678910",
             titulo: "LivroTeste",
@@ -26,7 +26,7 @@ describe('Insert book service', async () => {
         expect(insertedBookResponse.statusCode).toEqual(201);
     });
 
-    it('Should not be able to insert a book without title', async () => {
+    it('Should not be able to post a book without title', async () => {
         const bookWithoutTitle: BookModel = {
             GUID: "12345678910",
             titulo: "",
