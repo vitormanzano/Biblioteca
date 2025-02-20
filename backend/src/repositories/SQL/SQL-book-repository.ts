@@ -4,7 +4,7 @@ import { createGUID } from "../../data/create-guid";
 import { verifyIsUndefinedOrVoid } from "../../validators/verifyUndefined -repository";
 import { commitAndCloseDatabase } from "../../data/commitAndCloseDatabase";
 import * as AuthorRepository from "../author-repository";
-import { IBooksRepository } from "../models-repository/book-repository-interface";
+import { IBooksRepository } from "../models/book-repository-interface";
 
 export class SQLBooksRepository implements IBooksRepository {
     

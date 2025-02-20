@@ -1,5 +1,5 @@
 import { BookModel } from "backend/src/models/book-model";
-import { IBooksRepository } from "../models-repository/book-repository-interface";
+import { IBooksRepository } from "../models/book-repository-interface";
 
 export class InMemoryBookRepository implements IBooksRepository {
     private bookList: BookModel[] = [];

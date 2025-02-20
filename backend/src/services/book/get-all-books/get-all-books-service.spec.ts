@@ -1,4 +1,4 @@
-import { IBooksRepository } from "backend/src/repositories/models-repository/book-repository-interface";
+import { IBooksRepository } from "backend/src/repositories/models/book-repository-interface";
 import { GetAllBooksService } from "./get-all-books-service";
 import { beforeEach, describe, expect, it } from "vitest";
 import { InMemoryBookRepository } from "backend/src/repositories/in-memory/in-memory-book";

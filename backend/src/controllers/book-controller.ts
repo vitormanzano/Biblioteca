@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { BookModel } from "../models/book-model";
 import * as HttpResponse from "../utils/http-helper" 
-import { GetAllBooksService } from "../services/book/get-all-books/get-all-books-service"; 
 import { makeDeleteBookByGuidService } from "../factories/make-delete-book-by-guid-service";
 import { makeGetAllBooksService } from "../factories/make-get-all-books-service";
 import { makeGetBookByGuidService } from "../factories/make-get-book-by-guid-service";
