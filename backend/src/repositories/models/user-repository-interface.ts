@@ -1,4 +1,3 @@
-import { IUserSigninModel } from "backend/src/models/user-signIn-model";
 import { UserModel } from "../../models/user-model";
 
 export interface IUsersRepository {
