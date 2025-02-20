@@ -1,6 +1,6 @@
 import { HttpResponseModel } from "backend/src/models/http-response-model";
 import { IUserSigninModel } from "backend/src/models/user-signIn-model";
-import { IUsersRepository } from "backend/src/repositories/models-repository/user-repository-interface";
+import { IUsersRepository } from "backend/src/repositories/models/user-repository-interface";
 import { removeBlankSpacesFromReq } from "backend/src/utils/removeBlankSpacesFromReq";
 import * as httpResponse from "../../../utils/http-helper"
 import { compare } from "bcrypt";

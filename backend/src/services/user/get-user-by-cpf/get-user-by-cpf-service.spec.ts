@@ -1,4 +1,4 @@
-import { IUsersRepository } from "backend/src/repositories/models-repository/user-repository-interface";
+import { IUsersRepository } from "backend/src/repositories/models/user-repository-interface";
 import { GetUserByCpfService } from "./get-user-by-cpf-service";
 import { beforeEach, describe, expect, it } from "vitest";
 import { InMemoryUsersRepository } from "backend/src/repositories/in-memory/in-memory-user";

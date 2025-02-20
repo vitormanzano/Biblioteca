@@ -1,5 +1,5 @@
 import { HttpResponseModel } from "../../../models/http-response-model";
-import { IUsersRepository } from "../../../repositories/models-repository/user-repository-interface";
+import { IUsersRepository } from "../../../repositories/models/user-repository-interface";
 import * as httpResponse from "../../../utils/http-helper";
 import { isValidCPF } from "../../../validators/VerifyCpf";
 
